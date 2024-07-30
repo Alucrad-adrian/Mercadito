@@ -1,4 +1,8 @@
+
 <h1>Lista de productos</h1>
+<a href="<?php echo base_url(); ?>index.php/producto/agregar">
+<button type="button" class="btn btn-primary">Agregar producto</button>
+</a>
 <table>
     <tr>
         <th>ID</th>
@@ -24,18 +28,18 @@
         <td><?php echo $producto->habilitado ? 'Sí' : 'No'; ?></td>
         <td><img src="<?php echo base_url('uploads/productos/'.$producto->imagen); ?>" alt="Imagen del producto" width="50"></td>
             <td>
-            <form action="<?php echo base_url('producto/modificar'); ?>" method="post">
+            <form action="<?php echo base_url('index.php/producto/modificar'); ?>" method="post">
                 <input type="hidden" name="idProducto" value="<?php echo $producto->idProducto; ?>">
                 <button type="submit" class="btn btn-success">Modificar</button>
             </form>
             </td>
             <td>
-            <form action="<?php echo base_url('producto/eliminarbd'); ?>" method="post">
+            <form action="<?php echo base_url('index.php/producto/eliminarbd'); ?>" method="post">
                 <input type="hidden" name="idProducto" value="<?php echo $producto->idProducto; ?>">
                 <button type="submit" class="btn btn-danger">Eliminar</button>
             </form>
             </td>
-            <td><form action="<?php echo base_url('producto/'.($producto->habilitado ? 'deshabilitarbd' : 'habilitarbd')); ?>" method="post">
+            <td><form action="<?php echo base_url('index.php/producto/'.($producto->habilitado ? 'deshabilitarbd' : 'habilitarbd')); ?>" method="post">
                 <input type="hidden" name="idProducto" value="<?php echo $producto->idProducto; ?>">
                 <button type="submit" class="btn btn-warning"><?php echo $producto->habilitado ? 'Deshabilitar' : 'Habilitar'; ?></button>
             </form></td>
