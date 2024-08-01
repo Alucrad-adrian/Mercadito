@@ -7,7 +7,7 @@ echo form_open_multipart("estudiante/subir");
 ?>
 
 <input type="hidden" class="form-control" name="idUsuario" value="<?php echo $idUsuario; ?>">
-<br>
+<input type="file" name="userfile">
 <button type="submit" class="btn btn-success">subir</button>
 	
 <?php
