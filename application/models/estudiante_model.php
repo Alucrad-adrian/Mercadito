@@ -7,7 +7,7 @@ class Estudiante_model extends CI_Model {
     {
         $this->db->select('*');
         $this->db->from('usuario');
-        //$this->db->where('habilitado', '1');
+        $this->db->where('habilitado', '1');
         return $this->db->get(); // Devuelve el resultado
     }
 
@@ -15,7 +15,7 @@ class Estudiante_model extends CI_Model {
     {
         $this->db->select('*');
         $this->db->from('usuario');
-        //$this->db->where('habilitado', '0');
+        $this->db->where('habilitado', '0');
         return $this->db->get(); // Devuelve el resultado
     }
 

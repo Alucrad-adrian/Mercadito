@@ -22,7 +22,7 @@
     <tbody>
         <?php
         $contador = 1;
-        foreach($alumnos->result() as $row)
+        foreach($usuarios->result() as $row)
         {
         ?>
         <tr>
