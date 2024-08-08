@@ -43,5 +43,17 @@ class Estudiante_model extends CI_Model {
         $this->db->where('idUsuario', $idUsuario);
         $this->db->update('usuario', $data);
     }
+
+    public function recuperaruser($idUsuario)
+    {
+        $this->db->where('idUsuario', $idUsuario);
+        $query = $this->db->get('usuario');
+
+        if ($query->num_rows() == 1) {
+            return $query->row();
+        } else {
+            return false;
+        }
+    }
 }
 

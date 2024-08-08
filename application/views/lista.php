@@ -5,6 +5,9 @@
 <a href="<?php echo base_url(); ?>index.php/usuarios/logout">
 <button type="button" class="btn btn-primary">Cerrar sesión</button>
 </a>
+<a href="<?php echo base_url(); ?>index.php/estudiante/modifcon">
+<button type="button" class="btn btn-primary">Modificar Contraseña</button>
+</a
 
 <h2>Hola <?php echo $this->session->userdata('usuario'); ?></h2>
 <h2>Hola <?php echo $this->session->userdata('rol'); ?></h2>
