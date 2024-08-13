@@ -53,7 +53,7 @@ class Estudiante extends CI_Controller {
 	public function agregarbd()
 	{
 		$data['usuario']=$_POST['usuario'];
-		$data['password']=$_POST['password'];
+		$data['password']=md5($_POST['password']);
 		$data['nombre']=strtoupper($_POST['nombre']);
 		$data['Apellido1']=strtoupper($_POST['apellido1']);
 		$data['Apellido2']=strtoupper($_POST['apellido2']);
@@ -61,6 +61,7 @@ class Estudiante extends CI_Controller {
 		$data['correo']=$_POST['correo'];
 		$data['carnet']=$_POST['carnet'];
 		$data['celular']=$_POST['celular'];
+		$data['fechaCreacion'] = date('Y-m-d H:i:s');
 
 		$this->estudiante_model->agregarusuario($data);
 		redirect('estudiante/curso','refresh');
@@ -95,8 +96,6 @@ class Estudiante extends CI_Controller {
 	{
 		if (isset($_POST['idUsuario'])) {
 			$idUsuario = $_POST['idUsuario'];
-			$data['usuario']=$_POST['usuario'];
-			$data['password']=$_POST['password'];
 			$data['nombre']=strtoupper($_POST['nombre']);
 			$data['Apellido1']=strtoupper($_POST['apellido1']);
 			$data['Apellido2']=strtoupper($_POST['apellido2']);
@@ -104,6 +103,7 @@ class Estudiante extends CI_Controller {
 			$data['correo']=$_POST['correo'];
 			$data['carnet']=$_POST['carnet'];
 			$data['celular']=$_POST['celular'];
+			$data['fechaActualizacion'] = date('Y-m-d H:i:s');
 
 			$this->estudiante_model->modificarusuario($idUsuario,$data);
 		}
@@ -136,18 +136,25 @@ class Estudiante extends CI_Controller {
 	{
 		if (isset($_POST['idUsuario'])) {
 			$idUsuario = $_POST['idUsuario'];
-			$nombrearchivo = $idUsuario . ".jpg";
-			//rutadonde se guardan los archivos
-			$config['upload_path'] = './uploads/estudiantes/';
-			//nombre del archivo
-			$config['file_name'] = $nombrearchivo;
-			$direccion = "./uploads/estudiantes/" . $nombrearchivo;
-
-			if (file_exists($direccion)) {
+			$nombrearchivo=$idUsuario.".jpg";
+			$config['upload_path']='./uploads/';
+			$config['file_name']=$nombrearchivo;
+			$direccion="./uploads/".$nombrearchivo;
+			if(file_exists($direccion))
+			{
 				unlink($direccion);
 			}
-			$config['allowed_types'] = 'jpg';
-			$this->load->library('upload', $config);
+			$config['allowed_types']='jpg';
+			$this->load->library('upload',$config);
+
+			if(!$this->upload->do_upload())
+			{
+				$data['error']=$this->upload->display_errors();
+			}
+			else
+			{
+				$data['foto']=$nombrearchivo;
+			}
 		}
 	}
     public function modifcon()
@@ -168,26 +175,28 @@ class Estudiante extends CI_Controller {
     public function modificarPassword()
     {
 		$idUsuario = $this->input->post('idUsuario');
-    if ($idUsuario) {
-        $passwordActual = $this->input->post('passwordActual');
-        $nuevaPassword = $this->input->post('nuevaPassword');
-        $confirmarPassword = $this->input->post('confirmarPassword');
+		if ($idUsuario) {
+			$passwordActual = $this->input->post('passwordActual');
+			$nuevaPassword = $this->input->post('nuevaPassword');
+			$confirmarPassword = $this->input->post('confirmarPassword');
 
-        if ($nuevaPassword === $confirmarPassword) {
-            $usuario = $this->estudiante_model->recuperaruser($idUsuario);
-            if (md5($passwordActual) === $usuario->password) {
-                $data['password'] = md5($nuevaPassword);
-                $this->estudiante_model->modificarusuario($idUsuario, $data);
-                redirect('estudiante/curso', 'refresh');
-            } else {
-                echo "Contraseña actual incorrecta.";
-            }
-        } else {
-            echo "Las nuevas contraseñas no coinciden.";
-        }
-    } else {
-        echo "ID de usuario no proporcionado.";
-    }
+			if ($nuevaPassword === $confirmarPassword) {
+				$usuario = $this->estudiante_model->recuperaruser($idUsuario);
+				if (md5($passwordActual) === $usuario->password) {
+					$data['password'] = md5($nuevaPassword);
+					$data['fechaActualizacion'] = date('Y-m-d H:i:s'); // Añade la fecha y hora actual
+					$this->estudiante_model->modificarusuario($idUsuario, $data);
+					redirect('estudiante/curso', 'refresh');
+				} else {
+					echo "Contraseña actual incorrecta.";
+				}
+			} else {
+				echo "Las nuevas contraseñas no coinciden.";
+			}
+		} else {
+			echo "ID de usuario no proporcionado.";
+		}
+
     }
 
 }

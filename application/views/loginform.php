@@ -51,12 +51,14 @@ echo form_open_multipart("usuarios/validarusuario");
 
 <input type="text" class="form-control" name="usuario" placeholder="Escribe login" required>
 <input type="password" class="form-control" name="password" placeholder="Escribe password" required>
-<button type="submit" class="btn btn-success">Ingresar</button>
+<button type="submit" class="btn btn-success" style="width: 320px;">Ingresar</button>
 	
 <?php
 echo form_close();
 ?>
-
+<a href="<?php echo base_url(); ?>index.php/usuarios/agregar">
+<button type="button" class="btn btn-primary">Registrarse</button>
+</a
       
     </div>
     <!-- /.login-card-body -->
