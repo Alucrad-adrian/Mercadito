@@ -82,28 +82,40 @@ class Usuarios extends CI_Controller {
 
 	public function ventanaAdmin()
 	{
-		$this->load->view('inc/head');
-		$this->load->view('inc/menu');
-		$this->load->view('venAdmin');
-		$this->load->view('inc/footer');
-		$this->load->view('inc/pie');
+		$lista=$this->estudiante_model->listausuarios();
+			$data['usuarios']=$lista;
+		$this->load->view('inc/vistaproject/head');
+		$this->load->view('inc/vistaproject/sibermenu');
+		$this->load->view('venAdmin', $data);
+		$this->load->view('inc/vistaproject/footer');
+		
+	}
+
+	public function socios(){
+		$lista=$this->estudiante_model->listausuarios();
+			$data['usuarios']=$lista;
+			$this->load->view('inc/vistaproject/head');
+			$this->load->view('inc/vistaproject/sibermenu');
+			$this->load->view('lista',$data);
+			$this->load->view('inc/vistaproject/footer');
+		
 	}
 
 	public function ventanaVendedor()
 	{
-		$this->load->view('inc/head');
-		$this->load->view('inc/menu');
-		$this->load->view('venVendedor');
-		$this->load->view('inc/footer');
-		$this->load->view('inc/pie');
+		$lista = $this->producto_model->listaproductos();
+        $data['productos'] = $lista;
+		$this->load->view('inc/vistaproject/head');
+		$this->load->view('inc/vistaproject/sibermenuVendedor');
+		$this->load->view('lista_producto', $data);
+		$this->load->view('inc/vistaproject/footer');
 	}
 
 	public function ventanaCliente()
 	{
-		$this->load->view('inc/head');
-		$this->load->view('inc/menu');
+		$this->load->view('inc/vistaproject/head');
+		$this->load->view('inc/vistaproject/sibermenuCliente');
 		$this->load->view('venCliente');
-		$this->load->view('inc/footer');
-		$this->load->view('inc/pie');
+		$this->load->view('inc/vistaproject/footer');
 	}
 }

@@ -2,7 +2,7 @@
  <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
-      <img src="img/friki.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <img src="<?php echo base_url();?>img/friki.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Mercadito Friki</span>
     </a>
 
@@ -11,7 +11,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="img/friki.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="<?php echo base_url();?>img/friki.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
 
@@ -50,25 +50,25 @@
 
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="crearsocios.php" class="nav-link">
+                <a href="<?php echo base_url();?>index.php/estudiante/agregar" class="nav-link">
                   <i class="fas fa-user"></i>
                   <p>Insertar Socio</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="listarsocios.php" class="nav-link">
+                <a href="<?php echo base_url();?>index.php/usuarios/socios" class="nav-link">
                   <i class="fas fa-file"></i>
                   <p>Listar Socios</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="productos.php" class="nav-link">
+                <a href="<?php echo base_url();?>index.php/producto/agregar" class="nav-link">
                   <i class="fas fa-user"></i>
                   <p>Insertar productos</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="ListarProductos.php" class="nav-link">
+                <a href="<?php echo base_url();?>index.php/producto/lista" class="nav-link">
                   <i class="fas fa-file"></i>
                   <p>Listar productos</p>
                 </a>
@@ -95,9 +95,11 @@
             </a>
            
           </li>
-          
-         
-         
+          <li class="nav-item">
+            <a href="<?php echo base_url(); ?>index.php/usuarios/logout">
+            <button type="button" class="btn btn-primary">Cerrar sesión</button>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

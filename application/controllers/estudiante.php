@@ -12,7 +12,7 @@ class Estudiante extends CI_Controller {
 
 	public function curso()
 	{
-		if($this->session->userdata('usuario'))
+		if($this->session->userdata('rol')=='Administrador')
 		{
 			$lista=$this->estudiante_model->listausuarios();
 			$data['usuarios']=$lista;

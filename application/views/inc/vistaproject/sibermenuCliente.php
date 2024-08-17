@@ -5,7 +5,7 @@
  <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
-      <img src="img/friki.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <img src="<?php echo base_url();?>img/friki.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Mercadito Friki</span>
     </a>
 
@@ -14,7 +14,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="img/friki.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="<?php echo base_url();?>img/friki.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">Cliente</a>
@@ -45,8 +45,8 @@
             <a href="maincliente.php" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                productos
-                <span class="right badge badge-danger">New</span>
+                Home
+                <span class="right badge badge-danger"></span>
               </p>
             </a>
           </li>
@@ -56,7 +56,7 @@
               <p>
                 Tiendas
                 <i class="fas fa-angle-left right"></i>
-                <span class="badge badge-info right">7</span>
+                <span class="badge badge-info right"></span>
               </p>
             </a>
             <ul class="nav nav-treeview">
@@ -80,7 +80,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
               <p>
-                Pedidos
+                productos
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>

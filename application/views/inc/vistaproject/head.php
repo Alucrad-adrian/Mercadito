@@ -8,136 +8,23 @@
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../../adminlte/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>adminlte/plugins/fontawesome-free/css/all.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Tempusdominus Bootstrap 4 -->
-  <link rel="stylesheet" href="../../../adminlte/adminlte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>adminlte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
   <!-- iCheck -->
-  <link rel="stylesheet" href="../../../adminlte/adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <!-- JQVMap -->
-  <link rel="stylesheet" href="../../../adminlte/adminlte/plugins/jqvmap/jqvmap.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>adminlte/plugins/jqvmap/jqvmap.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../../../adminlte/adminlte/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>adminlte/dist/css/adminlte.min.css">
   <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="../../../adminlte/adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- Daterange picker -->
-  <link rel="stylesheet" href="../../../adminlte/adminlte/plugins/daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>adminlte/plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
-  <link rel="stylesheet" href="../../../adminlte/adminlte/plugins/summernote/summernote-bs4.min.css">
-
-  <script>
-    function insertarcliente(){
-    $(document).ready(function(){
-        const usuario = $("#usuario").val();
-        const passw = $('#passw').val();
-        const nombre = $('#nombre').val();
-        const apellidoPat = $('#apellidoPat').val();
-        const apellidoMat = $('#apellidoMat').val();
-        const telefono = $('#telefono').val();
-        let rol = $('#rol').val(); // Use 'let' to allow reassignment
-        const correo = $('#correo').val();
-        const carnet = $('#carnet').val();
-
-        // Check if the 'rol' field is empty, and set a default value if it is
-        if (!rol) {
-            rol = "Cliente";
-        }
-
-        console.log(usuario);
-        console.log(passw);
-        console.log(nombre);
-        console.log(apellidoPat);
-        console.log(apellidoMat);
-        console.log(telefono);
-        console.log(rol);
-        console.log(correo);
-        console.log(carnet);
-
-        $.post("insertCliente.php", {
-            usuario: usuario, 
-            passw: passw, 
-            nombre: nombre,
-            apellidoPat: apellidoPat,
-            apellidoMat: apellidoMat,
-            telefono: telefono,
-            rol: rol, 
-            correo: correo, 
-            carnet: carnet
-        }, function(result){
-            $("#confimacionInsert").html(result);
-            $('#confimacionInsert').show();
-        });
-    });
-}
-
-function insertarSocio(){
-    $(document).ready(function(){
-        const usuario = $("#usuario").val();
-        const passw = $('#passw').val();
-        const nombre = $('#nombre').val();
-        const apellidoPat = $('#apellidoPat').val();
-        const apellidoMat = $('#apellidoMat').val();
-        const telefono = $('#telefono').val();
-        let rol = $('#rol').val(); 
-        const correo = $('#correo').val();
-        const carnet = $('#carnet').val();
-
-        console.log(usuario);
-        console.log(passw);
-        console.log(nombre);
-        console.log(apellidoPat);
-        console.log(apellidoMat);
-        console.log(telefono);
-        console.log(rol);
-        console.log(correo);
-        console.log(carnet);
-
-        $.post("insertCliente.php", {
-            usuario: usuario, 
-            passw: passw, 
-            nombre: nombre,
-            apellidoPat: apellidoPat,
-            apellidoMat: apellidoMat,
-            telefono: telefono,
-            rol: rol, 
-            correo: correo, 
-            carnet: carnet
-        }, function(result){
-            $("#confimacionInsert").html(result);
-            $('#confimacionInsert').show();
-        });
-    });
-}
-
-
-
-    //insertarproducto
-    function insertarProducto(){
-      $(document).ready(function()
-        {
-        const nombre_producto = $('#nombre_producto').val();
-        const descripcion = $('#descripcion').val();
-        const precio = $('#precio').val();
-        const categoria = $('#categoria').val();
-
-
-
-        console.log(nombre_producto);console.log(descripcion);
-        console.log(precio);console.log(categoria);
-
-        $.post("insertarproducto.php",{ nombre_producto:nombre_producto,
-          descripcion:descripcion,precio:precio,categoria:categoria},function(result){
-          
-          $("#confimacionInsertproducto").html(result);
-          $('#confimacionInsertproducto').show();
-
-        });
-      });
-    }
-    
-
-  </script>
+  <link rel="stylesheet" href="<?php echo base_url();?>adminlte/plugins/summernote/summernote-bs4.min.css">
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -145,7 +32,7 @@ function insertarSocio(){
 
   <!-- Preloader -->
   <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="img/friki.jpg" alt="AdminLTELogo" height="250" width="250">
+    <img class="animation__shake" src="<?php echo base_url();?>img/friki.jpg" alt="AdminLTELogo" height="250" width="250">
   </div>
 
   <!-- Navbar -->
