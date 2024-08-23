@@ -5,7 +5,7 @@
     <input type="text" class="form-control" name="propietario" placeholder="Escribe propietario" required>
 </div>
 <div class="form-group">
-    <label for="nombre_producto">Nombre</label>
+    <label for="nombre_producto">Nombre del Producto</label>
     <input type="text" class="form-control" name="nombre_producto" placeholder="Escribe nombre del producto" required>
 </div>
 <div class="form-group">
@@ -28,7 +28,7 @@
     </select>
 </div>
 <div class="form-group">
-    <label for="imagen">Imagen</label>
+    <label for="imagen">Imagen del Producto</label>
     <input type="file" class="form-control" name="imagen" required>
 </div>
 <button type="submit" class="btn btn-success">Agregar producto</button>

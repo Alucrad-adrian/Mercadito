@@ -13,21 +13,7 @@
 <h2>Hola <?php echo $this->session->userdata('rol'); ?></h2>
 <h2>Hola <?php echo $this->session->userdata('idUsuario'); ?></h2>
 
-<?php
-echo date('Y/m/d H:i:s');
-?>
 
-<br>
-
-<a href="<?php echo base_url(); ?>index.php/estudiante/deshabilitados">
-<button type="button" class="btn btn-warning">VER DESHABILITADOS</button>
-</a>
-
-<br>
-
-<a href="<?php echo base_url(); ?>index.php/estudiante/agregar">
-<button type="button" class="btn btn-primary">Agregar usuario</button>
-</a>
 
 <table class="table">
     <thead>

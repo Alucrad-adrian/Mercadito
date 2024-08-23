@@ -96,7 +96,7 @@ class Usuarios extends CI_Controller {
 			$data['usuarios']=$lista;
 			$this->load->view('inc/vistaproject/head');
 			$this->load->view('inc/vistaproject/sibermenu');
-			$this->load->view('lista',$data);
+			$this->load->view('listaclientes',$data);
 			$this->load->view('inc/vistaproject/footer');
 		
 	}
@@ -113,9 +113,13 @@ class Usuarios extends CI_Controller {
 
 	public function ventanaCliente()
 	{
+		$this->load->model('producto_model'); // Carga el modelo
+    	$data['productos'] = $this->producto_model->obtener_productos();
+		
+		
 		$this->load->view('inc/vistaproject/head');
 		$this->load->view('inc/vistaproject/sibermenuCliente');
-		$this->load->view('venCliente');
+		$this->load->view('venCliente', $data);
 		$this->load->view('inc/vistaproject/footer');
 	}
 }

@@ -4,6 +4,7 @@ foreach ($producto->result() as $row) {
     echo form_open_multipart("producto/modificarbd");
 ?>
 <input type="hidden" name="idProducto" value="<?php echo $row->idProducto; ?>">
+<input type="hidden" name="imagen_actual" value="<?php echo $row->imagen; ?>"> <!-- Campo oculto para la imagen actual -->
 <div class="form-group">
     <label for="propietario">Propietario</label>
     <input type="text" class="form-control" name="propietario" value="<?php echo $row->propietario; ?>" required>
@@ -34,10 +35,16 @@ foreach ($producto->result() as $row) {
 <div class="form-group">
     <label for="imagen">Imagen</label>
     <input type="file" class="form-control" name="imagen">
+    <br>
+    <!-- Muestra la imagen actual -->
+    <?php if ($row->imagen): ?>
+        <img src="<?php echo base_url('uploads/productos/' . $row->imagen); ?>" alt="Imagen actual" width="150">
+    <?php else: ?>
+        <p>No hay imagen cargada.</p>
+    <?php endif; ?>
 </div>
 <button type="submit" class="btn btn-success">Modificar producto</button>
 <?php echo form_close(); ?>
 <?php
 }
 ?>
-

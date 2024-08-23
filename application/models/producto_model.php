@@ -48,4 +48,15 @@ class Producto_model extends CI_Model {
         $this->db->where('idProducto', $idProducto);
         $this->db->update('producto', $data);
     }
+    public function obtener_productos_por_producto($idProducto)
+    {
+        $this->db->where('idProducto', $idProducto);
+        $query = $this->db->get('producto'); // Asumiendo que la tabla se llama 'producto'
+        return $query->result();
+    }
+    
+    public function obtener_productos() {
+        $query = $this->db->get('producto'); // 'producto' es el nombre de la tabla en la base de datos
+        return $query->result();
+    }
 }

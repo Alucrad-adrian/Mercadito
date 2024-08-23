@@ -55,5 +55,11 @@ class Estudiante_model extends CI_Model {
             return false;
         }
     }
+
+    public function actualizar_foto($idUsuario,$data) {
+        
+        $this->db->where('idUsuario', $idUsuario);
+        return $this->db->update('usuario', $data);
+    }
 }
 
