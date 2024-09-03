@@ -5,7 +5,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Listar Clientes</h1>
+            <h1 class="m-0">Lista de Clientes</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -51,7 +51,9 @@
                   vertical-align: middle; /* Alineación vertical */
                 }
               </style>
-
+              <?php echo form_open_multipart('estudiante/deshabilitados'); ?>
+              <button type="submit" name="buton2" class="btn btn-warning">VER. ESTUDIANTES DESHABILITADOS</button>
+              <?php echo form_close(); ?>
               <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>

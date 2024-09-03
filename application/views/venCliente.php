@@ -56,7 +56,7 @@
 <!-- /.content-wrapper -->
 
 <script>
-function abrirDetalles(nombre, imagen, descripcion, precio) {
+function abrirDetalles(nombre_producto, imagen, descripcion, precio) {
     document.getElementById('productoNombre').innerText = nombre;
     document.getElementById('productoImagen').src = imagen;
     document.getElementById('productoDescripcion').innerText = descripcion;

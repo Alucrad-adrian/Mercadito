@@ -71,7 +71,7 @@
               <li class="nav-item">
                 <a href="Kazushiro.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Kazu-shiro san</p>
+                  <p>Pseudogente</p>
                 </a>
               </li>
             </ul>
@@ -113,6 +113,11 @@
           </li>
         </ul>
       </nav>
+      <li class="nav-item">
+            <a href="<?php echo base_url(); ?>index.php/usuarios/logout">
+            <button type="button" class="btn btn-primary">Cerrar sesión</button>
+            </a>
+          </li>
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->

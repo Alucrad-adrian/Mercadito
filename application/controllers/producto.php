@@ -17,11 +17,10 @@ class Producto extends CI_Controller {
 
     public function agregar()
     {
-        $this->load->view('inc/head');
-        $this->load->view('inc/menu');
+        $this->load->view('inc/vistaproject/head');
+        $this->load->view('inc/vistaproject/sibermenu');
         $this->load->view('formulario_producto');
-        $this->load->view('inc/footer');
-        $this->load->view('inc/pie');
+        $this->load->view('inc/vistaproject/footer');
     }
 
     public function agregarbd()
@@ -44,10 +43,10 @@ class Producto extends CI_Controller {
         if (!$this->upload->do_upload('imagen')) {
             // Si hay un error, muestra el mensaje de error
             $data['error'] = $this->upload->display_errors();
-            $this->load->view('inc/head');
-            $this->load->view('inc/menu');
+            $this->load->view('inc/vistaproject/head');
+            $this->load->view('inc/vistaproject/sibermenu');
             $this->load->view('formulario_producto', $data);
-            $this->load->view('inc/footer');
+            $this->load->view('inc/vistaproject/footer');
         } else {
             // Si la subida es exitosa, guarda los datos en la base de datos
             $file_data = $this->upload->data();
@@ -80,11 +79,10 @@ class Producto extends CI_Controller {
             $idProducto = $_POST['idProducto'];
             $data['producto'] = $this->producto_model->productoPorId($idProducto);
 
-            $this->load->view('inc/head');
-            $this->load->view('inc/menu');
+            $this->load->view('inc/vistaproject/head');
+            $this->load->view('inc/vistaproject/sibermenu');
             $this->load->view('formmodificar_producto', $data);
-            $this->load->view('inc/footer');
-            $this->load->view('inc/pie');
+            $this->load->view('inc/vistaproject/footer');
         } else {
             redirect('producto/lista', 'refresh');
         }

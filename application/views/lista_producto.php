@@ -51,6 +51,9 @@
                                 vertical-align: middle; /* Alineación vertical */
                             }
                         </style>
+                        <a href="<?php echo base_url(); ?>index.php/pedido/pedido">
+                        <button type="button" class="btn btn-primary">pedido</button>
+                        </a>
 
                         <div class="card-body">
                             <table id="example1" class="table table-bordered table-striped">

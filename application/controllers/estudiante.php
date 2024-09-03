@@ -34,20 +34,18 @@ class Estudiante extends CI_Controller {
 		$lista=$this->estudiante_model->listadeshabilitados();
 		$data['usuarios']=$lista;
 
-		$this->load->view('inc/head');
-		$this->load->view('inc/menu');
+		$this->load->view('inc/vistaproject/head');
+		$this->load->view('inc/vistaproject/sibermenu');
 		$this->load->view('deshabilitados',$data);
-		$this->load->view('inc/footer');
-		$this->load->view('inc/pie');
+		$this->load->view('inc/vistaproject/footer');
 	}
 
 	public function agregar()
 	{
-		$this->load->view('inc/head');
-		$this->load->view('inc/menu');
+		$this->load->view('inc/vistaproject/head');
+		$this->load->view('inc/vistaproject/sibermenu');
 		$this->load->view('formulario');
-		$this->load->view('inc/footer');
-		$this->load->view('inc/pie');
+		$this->load->view('inc/vistaproject/footer');
 	}
 
 	public function agregarbd()
@@ -103,11 +101,10 @@ class Estudiante extends CI_Controller {
     // Verificar si la validación ha fallado
     if ($this->form_validation->run() == FALSE) {
         // Cargar la vista del formulario nuevamente si hay errores
-        $this->load->view('inc/head');
-        $this->load->view('inc/menu');
+        $this->load->view('inc/vistaproject/head');
+        $this->load->view('inc/vistaproject/sibermenu');
         $this->load->view('formulario');
-        $this->load->view('inc/footer');
-        $this->load->view('inc/pie');
+        $this->load->view('inc/vistaproject/footer');
     } else {
         // Si la validación es exitosa, proceder a guardar los datos
         $data['usuario'] = $this->input->post('usuario');
@@ -120,12 +117,41 @@ class Estudiante extends CI_Controller {
         $data['carnet'] = $this->input->post('carnet');
         $data['celular'] = $this->input->post('celular');
         $data['fechaCreacion'] = date('Y-m-d H:i:s');
+        // Crear un token de verificación
+        $token = md5(uniqid(mt_rand(), true));
+        $data['token'] = $token; // Guardar el token junto con el usuario
 
         // Guardar los datos en la base de datos
-        $this->estudiante_model->agregarusuario($data);
-        redirect('estudiante/curso', 'refresh');
+        $this->estudiante_model->agregarsocio($data); 
+    
+        // Cargar la librería de correo con la configuración
+        $this->load->library('email');
+		$configuraciones['mailtype']='html';
+		$this->email->initialize($configuraciones);
+
+        // Configurar los detalles del correo
+        $this->email->from('rivera.adrian.9445@gmail.com', 'Mercadito Friki');
+        $this->email->to($data['correo']);
+		$this->email->cc('alexmerce2011@gmail.com');
+
+        $this->email->subject('Verifica tu cuenta');
+        $this->email->message('<p> Hola ' . $data['nombre'] . ',<br><br>Gracias por registrarte. Por favor, verifica tu correo electrónico haciendo clic en el enlace siguiente:<br><br></p>' . 
+        '<a href="' . base_url() . 'index.php/usuarios/verificar/' . $token . '">Verificar cuenta</a>');
+
+        // Enviar el correo
+        if ($this->email->send()) {
+            echo 'Correo de verificación enviado.';
+			redirect('usuarios/socios', 'refresh');
+        } else {
+            echo 'Error al enviar el correo de verificación.';
+            echo $this->email->print_debugger(); // Para depuración
+        }
+
+        // Redireccionar después de enviar el correo
+        redirect('estudiante/agregar', 'refresh');
     }
 }
+
 
 	
 
@@ -135,7 +161,7 @@ class Estudiante extends CI_Controller {
 			$idUsuario = $_POST['idUsuario'];
 			$this->estudiante_model->eliminarusuario($idUsuario);
 		}
-		redirect('estudiante/curso','refresh');
+		redirect('usuarios/socios','refresh');
 	}
 
 	public function modificar()
@@ -144,13 +170,12 @@ class Estudiante extends CI_Controller {
 			$idUsuario = $_POST['idUsuario'];
 			$data['infousuario']=$this->estudiante_model->recuperarusuario($idUsuario);
 
-			$this->load->view('inc/head');
-			$this->load->view('inc/menu');
+			$this->load->view('inc/vistaproject/head');
+			$this->load->view('inc/vistaproject/sibermenu');
 			$this->load->view('formmodificar',$data);
-			$this->load->view('inc/footer');
-			$this->load->view('inc/pie');
+			$this->load->view('inc/vistaproject/footer');
 		} else {
-			redirect('estudiante/curso','refresh');
+			redirect('usuarios/socios','refresh');
 		}
 	}
 
@@ -169,7 +194,7 @@ class Estudiante extends CI_Controller {
 
 			$this->estudiante_model->modificarusuario($idUsuario,$data);
 		}
-		redirect('estudiante/curso','refresh');
+		redirect('usuarios/socios','refresh');
 	}
 
 	public function deshabilitarbd()
@@ -180,7 +205,7 @@ class Estudiante extends CI_Controller {
 
 			$this->estudiante_model->modificarusuario($idUsuario,$data);
 		}
-		redirect('estudiante/curso','refresh');
+		redirect('usuarios/socios','refresh');
 	}
 
 	public function habilitarbd()
@@ -199,40 +224,49 @@ class Estudiante extends CI_Controller {
 		if (isset($_POST['idUsuario'])) {
 		$idUsuario = $_POST['idUsuario'];
 		$data['infousuario'] = $this->estudiante_model->recuperarusuario($idUsuario);
+		$this->load->view('inc/vistaproject/head');
+		$this->load->view('inc/vistaproject/sibermenu');
 		$this->load->view('subirform', $data);
+		$this->load->view('inc/vistaproject/footer');
+
 		}
 	}
 	public function subir()
-	{
-		
-		if (isset($_POST['idUsuario'])) {
-			$idUsuario = $_POST['idUsuario'];
-			$nombrearchivo=$idUsuario.".jpg";
+{
+    if (isset($_POST['idUsuario'])) {
+        $idUsuario = $_POST['idUsuario'];
+        $this->load->library('upload');
 
-		$config['upload_path']='./uploads/';
-		$config['file_name']=$nombrearchivo;
-		$direccion="./uploads/".$nombrearchivo;
-		if(file_exists($direccion))
-		{
-			unlink($direccion);
-		}
-		$config['allowed_types']='jpg';
-		$this->load->library('upload',$config);
+        // Configura los parámetros de subida de la imagen
+        $config['upload_path'] = './uploads/';
+        $config['allowed_types'] = 'jpg|jpeg|png';
+        $config['file_name'] = uniqid(); // Genera un nombre único
+        $config['overwrite'] = TRUE; // Sobrescribe archivos existentes
+        $this->upload->initialize($config);
 
-		if(!$this->upload->do_upload())
-		{
-			$data['error']=$this->upload->display_errors();
-		}
-		else
-		{
-			$data['foto']=$nombrearchivo;
-		}
+        // Verifica si se ha seleccionado un archivo para subir
+        if ($this->upload->do_upload('imagen')) {
+            $file_data = $this->upload->data();
+            $data['foto'] = $file_data['file_name'];
 
-		$this->estudiante_model->actualizar_foto($idUsuario,$data);
-		$this->upload->data();
-		}
-		redirect('usuarios/socios','refresh');
-	}
+            // Eliminar la imagen anterior si existe
+            $imagen_actual = $this->input->post('imagen_actual');
+            if ($imagen_actual && file_exists('./uploads/' . $imagen_actual)) {
+                unlink('./uploads/' . $imagen_actual);
+            }
+
+        } else {
+            // Si no se subió una nueva imagen, mantener la imagen existente
+            $data['foto'] = $this->input->post('imagen_actual'); // Utiliza la imagen existente
+        }
+
+        // Actualizar la base de datos con el nombre del archivo
+        $this->estudiante_model->actualizar_foto($idUsuario, $data);
+    }
+    redirect('usuarios/socios', 'refresh');
+}
+
+
     public function modifcon()
 	{
 		$idUsuario = $this->session->userdata('idUsuario'); 
@@ -262,7 +296,7 @@ class Estudiante extends CI_Controller {
 					$data['password'] = md5($nuevaPassword);
 					$data['fechaActualizacion'] = date('Y-m-d H:i:s'); // Añade la fecha y hora actual
 					$this->estudiante_model->modificarusuario($idUsuario, $data);
-					redirect('estudiante/curso', 'refresh');
+					redirect('usuarios/socios', 'refresh');
 				} else {
 					echo "Contraseña actual incorrecta.";
 				}
