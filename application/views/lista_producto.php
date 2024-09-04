@@ -51,12 +51,29 @@
                                 vertical-align: middle; /* Alineación vertical */
                             }
                         </style>
-                        <a href="<?php echo base_url(); ?>index.php/pedido/pedido">
-                        <button type="button" class="btn btn-primary">pedido</button>
-                        </a>
-
                         <div class="card-body">
-                            <table id="example1" class="table table-bordered table-striped">
+                            <!-- Filtros -->
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="filtroPropietario">Seleccionar Propietario:</label>
+                                    <select id="filtroPropietario" class="form-control" onchange="filtrarProductos()">
+                                        <option value="">Todos los Propietarios</option>
+                                        <option value="pseudogente">Pseudogente</option>
+                                        <option value="Z-store">Z-store</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="filtroCategoria">Seleccionar Categoría:</label>
+                                    <select id="filtroCategoria" class="form-control" onchange="filtrarProductos()">
+                                        <option value="">Todas las Categorías</option>
+                                        <option value="libro">Libro</option>
+                                        <option value="figura">Figura</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- Tabla de productos -->
+                            <table id="productosTabla" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
@@ -72,10 +89,8 @@
                                         <th>Deshabilitar</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <?php
-                                    foreach ($productos->result() as $producto) {
-                                    ?>
+                                <tbody id="productos"> <!-- Corregido el ID -->
+                                    <?php foreach ($productos->result() as $producto): ?>
                                     <tr>
                                         <td><?php echo $producto->idProducto; ?></td>
                                         <td><?php echo $producto->propietario; ?></td>
@@ -85,59 +100,30 @@
                                         <td><?php echo $producto->categoria; ?></td>
                                         <td><?php echo $producto->habilitado ? 'Sí' : 'No'; ?></td>
                                         <td>
-                                            <?php 
-                                            $imagen = $producto->imagen;
-                                            if ($imagen == "") {
-                                            ?>
-                                                <img src="<?php echo base_url(); ?>/uploads/productos/interrogante.jpg" alt="Imagen por defecto" width="100">
-                                            <?php
-                                            } else {
-                                            ?>
-                                                <img src="<?php echo base_url(); ?>/uploads/productos/<?php echo $imagen; ?>" alt="Imagen del producto" width="100">
-                                            <?php
-                                            }
-                                            ?>
+                                            <?php $imagen = $producto->imagen ?: 'interrogante.jpg'; ?>
+                                            <img src="<?php echo base_url('uploads/productos/' . $imagen); ?>" alt="Imagen del producto" width="100">
                                         </td>
-                                        <td>
-                                            <?php echo form_open_multipart("producto/modificar"); ?>
+                                        <td><?php echo form_open_multipart("producto/modificar"); ?>
                                             <input type="hidden" name="idProducto" value="<?php echo $producto->idProducto; ?>">
                                             <button type="submit" class="btn btn-success">Modificar</button>
                                             <?php echo form_close(); ?>
                                         </td>
-                                        <td>
-                                            <?php echo form_open_multipart("producto/eliminarbd"); ?>
+                                        <td><?php echo form_open_multipart("producto/eliminarbd"); ?>
                                             <input type="hidden" name="idProducto" value="<?php echo $producto->idProducto; ?>">
                                             <button type="submit" class="btn btn-danger">Eliminar</button>
                                             <?php echo form_close(); ?>
                                         </td>
-                                        <td>
-                                            <?php echo form_open_multipart("producto/" . ($producto->habilitado ? 'deshabilitarbd' : 'habilitarbd')); ?>
+                                        <td><?php echo form_open_multipart("producto/" . ($producto->habilitado ? 'deshabilitarbd' : 'habilitarbd')); ?>
                                             <input type="hidden" name="idProducto" value="<?php echo $producto->idProducto; ?>">
                                             <button type="submit" class="btn btn-warning"><?php echo $producto->habilitado ? 'Deshabilitar' : 'Habilitar'; ?></button>
                                             <?php echo form_close(); ?>
                                         </td>
                                     </tr>
-                                    <?php
-                                    }
-                                    ?>
+                                    <?php endforeach; ?>
                                 </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Propietario</th>
-                                        <th>Nombre</th>
-                                        <th>Descripción</th>
-                                        <th>Precio</th>
-                                        <th>Categoría</th>
-                                        <th>Habilitado</th>
-                                        <th>Imagen</th>
-                                        <th>Modificar</th>
-                                        <th>Eliminar</th>
-                                        <th>Deshabilitar</th>
-                                    </tr>
-                                </tfoot>
                             </table>
                         </div>
+
                         <!-- /.card-body -->
                     </div>
                 </div>
@@ -147,3 +133,32 @@
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+<script>
+    function filtrarProductos() {
+    var propietarioSeleccionado = document.getElementById('filtroPropietario').value.toLowerCase();
+    var categoriaSeleccionada = document.getElementById('filtroCategoria').value.toLowerCase();
+    var filas = document.getElementById('productos').getElementsByTagName('tr');
+    
+    for (var i = 0; i < filas.length; i++) {
+        var columnaPropietario = filas[i].getElementsByTagName('td')[1].textContent.toLowerCase();
+        var columnaCategoria = filas[i].getElementsByTagName('td')[5].textContent.toLowerCase();
+        
+        var mostrarFila = true;
+        
+        // Filtro por propietario
+        if (propietarioSeleccionado && columnaPropietario !== propietarioSeleccionado) {
+            mostrarFila = false;
+        }
+        
+        // Filtro por categoría
+        if (categoriaSeleccionada && columnaCategoria !== categoriaSeleccionada) {
+            mostrarFila = false;
+        }
+        
+        // Mostrar u ocultar la fila
+        filas[i].style.display = mostrarFila ? '' : 'none';
+    }
+}
+
+
+</script>

@@ -22,7 +22,11 @@ class Estudiante_model extends CI_Model {
     public function agregarusuario($data)
     {
         $this->db->insert('usuario', $data);
-        
+
+    }public function agregarsocio($data)
+    {
+        $this->db->insert('usuario', $data);
+
     }
 
 
@@ -45,6 +49,7 @@ class Estudiante_model extends CI_Model {
         $this->db->where('idUsuario', $idUsuario);
         $this->db->update('usuario', $data);
     }
+    
 
     public function recuperaruser($idUsuario)
     {

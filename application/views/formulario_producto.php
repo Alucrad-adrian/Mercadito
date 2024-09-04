@@ -19,26 +19,46 @@
             <div class="row">
                 <div class="col-12">
                     <?php echo form_open_multipart("producto/agregarbd"); ?>
+
+                    <!-- Select para Propietario -->
                     <div class="form-group">
                         <label for="propietario">Propietario</label>
-                        <input type="text" class="form-control" name="propietario" placeholder="Escribe propietario" required>
+                        <select class="form-control" name="propietario" required>
+                            <option value="">selecciona una tienda</option>
+                            <option value="pseudogente">Pseudogente</option>
+                            <option value="Z-store">Z-store</option>
+                        </select>
                     </div>
+
+                    <!-- Nombre del Producto -->
                     <div class="form-group">
                         <label for="nombre_producto">Nombre del Producto</label>
                         <input type="text" class="form-control" name="nombre_producto" placeholder="Escribe nombre del producto" required>
                     </div>
+
+                    <!-- Descripción -->
                     <div class="form-group">
                         <label for="descripcion">Descripción</label>
                         <textarea class="form-control" name="descripcion" placeholder="Escribe descripción" required></textarea>
                     </div>
+
+                    <!-- Precio Unitario -->
                     <div class="form-group">
                         <label for="precio_unitario">Precio Unitario</label>
                         <input type="number" class="form-control" name="precio_unitario" placeholder="Escribe precio unitario" required>
                     </div>
+
+                    <!-- Select para Categoría -->
                     <div class="form-group">
                         <label for="categoria">Categoría</label>
-                        <input type="text" class="form-control" name="categoria" placeholder="Escribe categoría" required>
+                        <select class="form-control" name="categoria" required>
+                        <option value="">selecciona la categoria</option>
+                            <option value="libro">Libro</option>
+                            <option value="figura">Figura</option>
+                        </select>
                     </div>
+
+                    <!-- Habilitado -->
                     <div class="form-group">
                         <label for="habilitado">Habilitado</label>
                         <select class="form-control" name="habilitado" required>
@@ -46,10 +66,13 @@
                             <option value="0">No</option>
                         </select>
                     </div>
+
+                    <!-- Imagen del Producto -->
                     <div class="form-group">
                         <label for="imagen">Imagen del Producto</label>
                         <input type="file" class="form-control" name="imagen" required>
                     </div>
+
                     <button type="submit" class="btn btn-success">Agregar producto</button>
                     <?php echo form_close(); ?>
                 </div>

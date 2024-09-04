@@ -59,4 +59,49 @@ class Producto_model extends CI_Model {
         $query = $this->db->get('producto'); // 'producto' es el nombre de la tabla en la base de datos
         return $query->result();
     }
+    public function get_all_productos() {
+        $query = $this->db->get('producto');
+        return $query->result();
+    }
+
+    // Obtener todos los propietarios (tiendas) únicos
+    public function get_all_propietarios() {
+        $this->db->select('propietario');
+        $this->db->distinct();
+        $query = $this->db->get('producto');
+        return $query->result();
+    }
+
+    // Obtener todas las categorías únicas
+    public function get_all_categorias() {
+        $this->db->select('categoria');
+        $this->db->distinct();
+        $query = $this->db->get('producto');
+        return $query->result();
+    }
+
+    public function listaproductos2($propietario = null)
+    {
+        // Seleccionamos todos los campos
+        $this->db->select('*');
+        $this->db->from('producto');
+    
+        // Si el propietario (usuario actual) es proporcionado, aplicamos el filtro
+        if (!empty($propietario)) {
+            $this->db->where('propietario', $propietario);  // Donde el propietario es el usuario
+        }
+    
+        // Ejecutamos la consulta
+        $query = $this->db->get();
+    
+        // Verificar si se encontraron productos
+        if ($query->num_rows() > 0) {
+            return $query->result();  // Retornar los productos si se encontraron
+        } else {
+            return []; // Retornar un array vacío si no hay productos o no se encontró el propietario
+        }
+    }
+    
+
+    
 }

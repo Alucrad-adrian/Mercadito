@@ -34,10 +34,16 @@
                         <label for="apellido2">Apellido Materno</label>
                         <input type="text" class="form-control" name="apellido2" placeholder="Escribe apellido materno" required>
                     </div>
-                    
+
+                    <!-- Select para Rol -->
                     <div class="form-group">
                         <label for="rol">Rol</label>
-                        <input type="text" class="form-control" name="rol" placeholder="Escribe rol" required>
+                        <select class="form-control" name="rol" required>
+                        <option value="">seleccione un rol</option>
+                            <option value="Administrador">Administrador</option>
+                            <option value="Vendedor">Vendedor</option>
+                            <option value="Cliente">Cliente</option>
+                        </select>
                     </div>
                     
                     <div class="form-group">

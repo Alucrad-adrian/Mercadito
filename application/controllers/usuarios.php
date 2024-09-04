@@ -36,10 +36,10 @@ class Usuarios extends CI_Controller {
 			
 			redirect('usuarios/ventanaAdmin','refresh');
 		}
-		elseif($this->session->userdata('rol')=='vendedor'){
+		elseif($this->session->userdata('rol')=='Vendedor'){
 			redirect('usuarios/ventanaVendedor','refresh');
 		}
-		elseif($this->session->userdata('rol')=='cliente'){
+		elseif($this->session->userdata('rol')=='Cliente'){
 			redirect('usuarios/ventanaCliente','refresh');
 		}
 		else {
@@ -67,15 +67,15 @@ class Usuarios extends CI_Controller {
     $this->load->library('form_validation');
 
     // Establecer reglas de validación para cada campo
-    $this->form_validation->set_rules('usuario', 'Nombre de usuario', 'required|min_length[5]|max_length[12]', 
+    $this->form_validation->set_rules('usuario', 'Nombre de usuario', 'required|min_length[4]|max_length[12]', 
         array(
             'required' => 'Se requiere el nombre de usuario',
-            'min_length' => 'El nombre de usuario debe tener al menos 5 caracteres',
+            'min_length' => 'El nombre de usuario debe tener al menos 4 caracteres',
             'max_length' => 'El nombre de usuario no puede exceder los 12 caracteres'
         )
     );
 
-    $this->form_validation->set_rules('password', 'Contraseña', 'required|min_length[6]', 
+    $this->form_validation->set_rules('password', 'Contraseña', 'required|min_length[5]', 
         array(
             'required' => 'Se requiere la contraseña',
             'min_length' => 'La contraseña debe tener al menos 6 caracteres'
@@ -88,18 +88,18 @@ class Usuarios extends CI_Controller {
         )
     );
 
-    $this->form_validation->set_rules('apellido1', 'Primer apellido', 'required|min_length[5]|max_length[12]', 
+    $this->form_validation->set_rules('apellido1', 'Primer apellido', 'required|min_length[4]|max_length[12]', 
         array(
             'required' => 'Se requiere el primer apellido',
-            'min_length' => 'El primer apellido debe tener al menos 5 caracteres',
+            'min_length' => 'El primer apellido debe tener al menos 4 caracteres',
             'max_length' => 'El primer apellido no puede exceder los 12 caracteres'
         )
     );
 
-    $this->form_validation->set_rules('apellido2', 'Segundo apellido', 'required|min_length[5]|max_length[12]', 
+    $this->form_validation->set_rules('apellido2', 'Segundo apellido', 'required|min_length[4]|max_length[12]', 
         array(
             'required' => 'Se requiere el segundo apellido',
-            'min_length' => 'El segundo apellido debe tener al menos 5 caracteres',
+            'min_length' => 'El segundo apellido debe tener al menos 4 caracteres',
             'max_length' => 'El segundo apellido no puede exceder los 12 caracteres'
         )
     );
@@ -158,7 +158,7 @@ class Usuarios extends CI_Controller {
         // Enviar el correo
         if ($this->email->send()) {
             echo 'Correo de verificación enviado.';
-            redirect('usuarios/loginform', 'refresh');
+            redirect('usuarios/vercorreo', 'refresh');
         } else {
             echo 'Error al enviar el correo de verificación.';
             echo $this->email->print_debugger(); // Para depuración
@@ -169,6 +169,11 @@ class Usuarios extends CI_Controller {
     }
 }
 
+public function vercorreo(){
+	
+	$this->load->view('comprobar');
+
+}
 
 	public function ventanaAdmin()
 	{
@@ -199,6 +204,8 @@ class Usuarios extends CI_Controller {
 		$this->load->view('inc/vistaproject/sibermenuVendedor');
 		$this->load->view('lista_producto', $data);
 		$this->load->view('inc/vistaproject/footer');
+		$this->load->model('Producto_model');
+    
 	}
 
 	public function ventanaCliente()

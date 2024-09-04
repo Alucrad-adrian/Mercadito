@@ -140,4 +140,22 @@ class Producto extends CI_Controller {
         }
         redirect('producto/lista', 'refresh');
     }
+
+    public function mostrar_productos() {
+        // Cargar el modelo de productos
+        $this->load->model('Producto_model');
+
+        // Obtener todos los productos
+        $data['productos'] = $this->Producto_model->get_all_productos();
+
+        // Obtener todas las tiendas (propietarios) distintos
+        $data['propietarios'] = $this->Producto_model->get_all_propietarios();
+
+        // Obtener todas las categorías distintas
+        $data['categorias'] = $this->Producto_model->get_all_categorias();
+
+        // Cargar la vista y pasar los datos
+        $this->load->view('nombre_de_la_vista', $data);
+    }
+
 }
