@@ -14,4 +14,10 @@ class Usuario_model extends CI_Model {
 		$query="SELECT * FROM usuario WHERE usuario='$login' AND password='$password'";
 		return $this->db->query($query);
 	}
+	public function obtenerUsuariosPorRol($rol) {
+		$this->db->where('rol', $rol);
+		$query = $this->db->get('usuario');  // Suponiendo que tu tabla de usuarios se llama 'usuario'
+		return $query->result();
+	}
+	
 }

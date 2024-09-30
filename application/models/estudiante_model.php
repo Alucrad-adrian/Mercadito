@@ -3,7 +3,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Estudiante_model extends CI_Model {
 
-	public function listausuarios()
+    public function obtener_usuarios_vendedores()
+    {
+        $this->db->select('idUsuario, nombre');
+        $this->db->from('usuario');
+        $this->db->where('rol', 'vendedor'); // Filtra por el rol vendedor
+        $query = $this->db->get();
+        
+        return $query->result();
+    }
+    public function listausuarios()
     {
         $this->db->select('*');
         $this->db->from('usuario');

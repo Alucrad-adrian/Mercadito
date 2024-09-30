@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Producto_model extends CI_Model {
 
+   
     public function listaproductos()
     {
         $this->db->select('*');
@@ -21,7 +22,9 @@ class Producto_model extends CI_Model {
     public function agregarProducto($data)
     {
         $this->db->insert('producto', $data);
+        return $this->db->insert_id();
     }
+
 
     public function eliminarProducto($idProducto)
     {
@@ -102,6 +105,10 @@ class Producto_model extends CI_Model {
         }
     }
     
-
+        // Método para asociar el producto con el puesto
+        public function agregarProductoPuesto($data) {
+            return $this->db->insert('productos_puestos', $data);
+        }
+    
     
 }

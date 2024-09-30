@@ -54,7 +54,7 @@ class Estudiante extends CI_Controller {
     $this->load->library('form_validation');
 
     // Establecer reglas de validación para cada campo
-    $this->form_validation->set_rules('usuario', 'Nombre de usuario', 'required|min_length[5]|max_length[12]', 
+    $this->form_validation->set_rules('usuario', 'Nombre de usuario', 'required|min_length[4]|max_length[12]', 
         array(
             'required' => 'Se requiere el nombre de usuario',
             'min_length' => 'El nombre de usuario debe tener al menos 5 caracteres',
@@ -62,10 +62,10 @@ class Estudiante extends CI_Controller {
         )
     );
 
-    $this->form_validation->set_rules('password', 'Contraseña', 'required|min_length[6]', 
+    $this->form_validation->set_rules('password', 'Contraseña', 'required|min_length[5]', 
         array(
             'required' => 'Se requiere la contraseña',
-            'min_length' => 'La contraseña debe tener al menos 6 caracteres'
+            'min_length' => 'La contraseña debe tener al menos 5 caracteres'
         )
     );
 
@@ -83,11 +83,10 @@ class Estudiante extends CI_Controller {
         )
     );
 
-    $this->form_validation->set_rules('apellido2', 'Segundo apellido', 'required|min_length[5]|max_length[12]', 
+    // Eliminar la validación 'required' para el apellido materno
+    $this->form_validation->set_rules('apellido2', 'Apellido materno', 'max_length[12]', 
         array(
-            'required' => 'Se requiere el segundo apellido',
-            'min_length' => 'El segundo apellido debe tener al menos 5 caracteres',
-            'max_length' => 'El segundo apellido no puede exceder los 12 caracteres'
+            'max_length' => 'El apellido materno no puede exceder los 12 caracteres'
         )
     );
 
@@ -107,53 +106,70 @@ class Estudiante extends CI_Controller {
         $this->load->view('inc/vistaproject/footer');
     } else {
         // Si la validación es exitosa, proceder a guardar los datos
-        $data['usuario'] = $this->input->post('usuario');
-        $data['password'] = md5($this->input->post('password'));
-        $data['nombre'] = strtoupper($this->input->post('nombre'));
-        $data['Apellido1'] = strtoupper($this->input->post('apellido1'));
-        $data['Apellido2'] = strtoupper($this->input->post('apellido2'));
-        $data['rol'] = $this->input->post('rol');
-        $data['correo'] = $this->input->post('correo');
-        $data['carnet'] = $this->input->post('carnet');
-        $data['celular'] = $this->input->post('celular');
-        $data['fechaCreacion'] = date('Y-m-d H:i:s');
+		$data['usuario'] = $this->input->post('usuario');
+		$data['password'] = md5($this->input->post('password'));
+		$data['nombre'] = strtoupper($this->input->post('nombre'));
+		$data['Apellido1'] = strtoupper($this->input->post('apellido1'));
+
+		// Guardar el apellido materno solo si se ha proporcionado
+		$apellido_materno = $this->input->post('apellido2');
+		if (!empty($apellido_materno)) {
+			$data['Apellido2'] = strtoupper($apellido_materno);
+		} else {
+			$data['Apellido2'] = NULL;
+		}
+
+		$data['rol'] = $this->input->post('rol');
+		$data['correo'] = $this->input->post('correo');
+		$data['carnet'] = $this->input->post('carnet');
+		$data['celular'] = $this->input->post('celular');
+		$data['fechaCreacion'] = date('Y-m-d H:i:s');
+
         // Crear un token de verificación
         $token = md5(uniqid(mt_rand(), true));
         $data['token'] = $token; // Guardar el token junto con el usuario
 
         // Guardar los datos en la base de datos
-        $this->estudiante_model->agregarsocio($data); 
-    
+        $this->estudiante_model->agregarsocio($data);
+
+        // Obtener el ID del usuario recién creado
+        $usuario_id = $this->db->insert_id();
+
         // Cargar la librería de correo con la configuración
         $this->load->library('email');
-		$configuraciones['mailtype']='html';
-		$this->email->initialize($configuraciones);
+        $configuraciones['mailtype'] = 'html';
+        $this->email->initialize($configuraciones);
 
         // Configurar los detalles del correo
         $this->email->from('rivera.adrian.9445@gmail.com', 'Mercadito Friki');
         $this->email->to($data['correo']);
-		$this->email->cc('alexmerce2011@gmail.com');
+        $this->email->cc('alexmerce2011@gmail.com');
 
         $this->email->subject('Verifica tu cuenta');
         $this->email->message('<p> Hola ' . $data['nombre'] . ',<br><br>Gracias por registrarte. Por favor, verifica tu correo electrónico haciendo clic en el enlace siguiente:<br><br></p>' . 
-        '<a href="' . base_url() . 'index.php/usuarios/verificar/' . $token . '">Verificar cuenta</a>');
+            '<a href="' . base_url() . 'index.php/usuarios/verificar/' . $token . '">Verificar cuenta</a>');
 
         // Enviar el correo
         if ($this->email->send()) {
             echo 'Correo de verificación enviado.';
-			redirect('usuarios/socios', 'refresh');
         } else {
             echo 'Error al enviar el correo de verificación.';
             echo $this->email->print_debugger(); // Para depuración
         }
 
-        // Redireccionar después de enviar el correo
-        redirect('estudiante/agregar', 'refresh');
-    }
+		// Aquí rediriges dependiendo del rol del usuario
+		if ($data['rol'] == 'Vendedor') {
+			// Redirigir a la creación de puesto para vendedores
+			redirect('puesto/crear/' . $usuario_id);
+		} else if ($data['rol'] == 'Cliente' || $data['rol'] == 'Administrador') {
+			// Redirigir a una ventana diferente para Cliente o Administrador
+			redirect('usuarios/socios', 'refresh');
+		} else {
+			// Manejo opcional para otros roles, si es necesario
+			redirect('usuarios/lista', 'refresh');
+		}
+	}
 }
-
-
-	
 
 	public function eliminarbd()
 	{

@@ -67,15 +67,15 @@ class Usuarios extends CI_Controller {
     $this->load->library('form_validation');
 
     // Establecer reglas de validación para cada campo
-    $this->form_validation->set_rules('usuario', 'Nombre de usuario', 'required|min_length[4]|max_length[12]', 
+    $this->form_validation->set_rules('usuario', 'Nombre de usuario', 'required|min_length[5]|max_length[12]', 
         array(
             'required' => 'Se requiere el nombre de usuario',
-            'min_length' => 'El nombre de usuario debe tener al menos 4 caracteres',
+            'min_length' => 'El nombre de usuario debe tener al menos 5 caracteres',
             'max_length' => 'El nombre de usuario no puede exceder los 12 caracteres'
         )
     );
 
-    $this->form_validation->set_rules('password', 'Contraseña', 'required|min_length[5]', 
+    $this->form_validation->set_rules('password', 'Contraseña', 'required|min_length[6]', 
         array(
             'required' => 'Se requiere la contraseña',
             'min_length' => 'La contraseña debe tener al menos 6 caracteres'
@@ -88,19 +88,18 @@ class Usuarios extends CI_Controller {
         )
     );
 
-    $this->form_validation->set_rules('apellido1', 'Primer apellido', 'required|min_length[4]|max_length[12]', 
+    $this->form_validation->set_rules('apellido1', 'Primer apellido', 'required|min_length[5]|max_length[12]', 
         array(
             'required' => 'Se requiere el primer apellido',
-            'min_length' => 'El primer apellido debe tener al menos 4 caracteres',
+            'min_length' => 'El primer apellido debe tener al menos 5 caracteres',
             'max_length' => 'El primer apellido no puede exceder los 12 caracteres'
         )
     );
 
-    $this->form_validation->set_rules('apellido2', 'Segundo apellido', 'required|min_length[4]|max_length[12]', 
+    // Eliminar la validación 'required' para el apellido materno
+    $this->form_validation->set_rules('apellido2', 'Apellido materno', 'max_length[12]', 
         array(
-            'required' => 'Se requiere el segundo apellido',
-            'min_length' => 'El segundo apellido debe tener al menos 4 caracteres',
-            'max_length' => 'El segundo apellido no puede exceder los 12 caracteres'
+            'max_length' => 'El apellido materno no puede exceder los 12 caracteres'
         )
     );
 
@@ -209,16 +208,26 @@ public function vercorreo(){
 	}
 
 	public function ventanaCliente()
-	{
-		$this->load->model('producto_model'); // Carga el modelo
-    	$data['productos'] = $this->producto_model->obtener_productos();
-		
-		
-		$this->load->view('inc/vistaproject/head');
-		$this->load->view('inc/vistaproject/sibermenuCliente');
-		$this->load->view('venCliente', $data);
-		$this->load->view('inc/vistaproject/footer');
-	}
+{
+    $this->load->model('producto_model'); // Carga el modelo de productos
+    $this->load->model('Notificacion_model'); // Carga el modelo de notificaciones
+
+    // Obtener los productos disponibles
+    $data['productos'] = $this->producto_model->obtener_productos();
+
+    // Obtener las notificaciones para el cliente actual
+    $usuario_id = $this->session->userdata('idUsuario'); // Obtener el ID del usuario
+    $data['notificaciones'] = $this->Notificacion_model->obtener_notificaciones_no_leidas($usuario_id); // Obtener notificaciones no leídas
+
+    // Cargar las vistas
+    $this->load->view('inc/vistaproject/head', $data); // Pasa las notificaciones a la vista
+    $this->load->view('inc/vistaproject/sibermenuCliente');
+    $this->load->view('venCliente', $data); // Asegúrate de pasar $data aquí también
+    $this->load->view('inc/vistaproject/footer');
+}
+
+
+
 
 	public function verificar($token)
     {

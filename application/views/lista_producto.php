@@ -96,7 +96,7 @@
                                         <td><?php echo $producto->propietario; ?></td>
                                         <td><?php echo $producto->nombre_producto; ?></td>
                                         <td><?php echo $producto->descripcion; ?></td>
-                                        <td><?php echo $producto->precio_unitario; ?></td>
+                                        <td><?php echo $producto->precio_unitario; ?> Bs.</td>
                                         <td><?php echo $producto->categoria; ?></td>
                                         <td><?php echo $producto->habilitado ? 'Sí' : 'No'; ?></td>
                                         <td>

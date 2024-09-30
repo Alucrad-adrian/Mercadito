@@ -1,5 +1,5 @@
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper" style="background-color: lightskyblue ;">
+<div class="content-wrapper" style="background-color: lightskyblue;">
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
@@ -27,19 +27,19 @@
                     
                     <div class="form-group">
                         <label for="apellido1">Apellido Paterno</label>
-                        <input type="text" class="form-control" name="apellido1" placeholder="Escribe apellido paterno" minlength="3" maxlength="20" required>
+                        <input type="text" class="form-control" name="apellido1" placeholder="Escribe apellido paterno" minlength="5" maxlength="12" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="apellido2">Apellido Materno</label>
-                        <input type="text" class="form-control" name="apellido2" placeholder="Escribe apellido materno" required>
+                        <input type="text" class="form-control" name="apellido2" placeholder="Escribe apellido materno">
                     </div>
 
                     <!-- Select para Rol -->
                     <div class="form-group">
                         <label for="rol">Rol</label>
                         <select class="form-control" name="rol" required>
-                        <option value="">seleccione un rol</option>
+                            <option value="">Seleccione un rol</option>
                             <option value="Administrador">Administrador</option>
                             <option value="Vendedor">Vendedor</option>
                             <option value="Cliente">Cliente</option>
@@ -58,29 +58,27 @@
                     
                     <div class="form-group">
                         <label for="celular">Celular</label>
-                        <input type="text" class="form-control" name="celular" placeholder="Escribe celular" required>
+                        <input type="tel" class="form-control" name="celular" placeholder="Escribe celular" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="usuario">Usuario</label>
-                        <input type="text" class="form-control" name="usuario" placeholder="Escribe usuario" required>
+                        <input type="text" class="form-control" name="usuario" placeholder="Escribe usuario" minlength="5" maxlength="12" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="password">Contraseña</label>
-                        <input type="password" class="form-control" name="password" placeholder="Escribe password" required>
+                        <input type="password" class="form-control" name="password" placeholder="Escribe contraseña" required>
                     </div>
                     
-                    <button type="submit" class="btn btn-success">Agregar usuario</button>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                        <a href="<?php echo base_url(); ?>index.php/usuarios/socios" class="btn btn-danger">Cancelar</a>
+                    </div>
                     
                     <?php echo form_close(); ?>
                 </div>
             </div>
         </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
-    <!-- /.content -->
-</div>
-<!-- /.content-wrapper -->
+    </div><!-- /.content-header -->
+</div><!-- /.content-wrapper -->

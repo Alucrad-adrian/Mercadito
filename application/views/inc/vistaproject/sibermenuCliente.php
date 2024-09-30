@@ -42,74 +42,13 @@
           </li>
           
           <li class="nav-item">
-            <a href="maincliente.php" class="nav-link">
+            <a href="<?php echo base_url(); ?>index.php/usuarios/ventanaCliente" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Home
                 <span class="right badge badge-danger"></span>
               </p>
             </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-copy"></i>
-              <p>
-                Tiendas
-                <i class="fas fa-angle-left right"></i>
-                <span class="badge badge-info right"></span>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="z-Store.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Z-Store</p>
-                </a>
-              </li>
-              
-              
-              <li class="nav-item">
-                <a href="Kazushiro.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Pseudogente</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
-              <p>
-                productos
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="figuras.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Figuras</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="trajes.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Traje</p>
-                </a>
-              </li>
-              <li class="na v-item">
-                <a href="armadura.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Armadura</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="katanas.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Katana</p>
-                </a>
-              </li>
-            </ul>
           </li>
         </ul>
       </nav>

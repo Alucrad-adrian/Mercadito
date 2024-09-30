@@ -1,3 +1,16 @@
+<script>
+    // Filtra los puestos en función del propietario seleccionado
+    document.getElementById('propietario').addEventListener('change', function() {
+        var propietarioId = this.value;
+        var puestoSelect = document.getElementById('puesto');
+        
+        // Muestra solo los puestos relacionados con el propietario seleccionado
+        for (var i = 0; i < puestoSelect.options.length; i++) {
+            var option = puestoSelect.options[i];
+            option.style.display = option.getAttribute('data-propietario') === propietarioId ? 'block' : 'none';
+        }
+    });
+</script>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper" style="background-color: burlywood;">
     <!-- Content Header (Page header) -->
@@ -18,12 +31,12 @@
             <br>
             <div class="row">
                 <div class="col-12">
-                    <?php echo form_open_multipart("producto/agregarbd"); ?>
+                    <?php echo form_open_multipart("producto/agregarbdVendedor"); ?>
 
                     <!-- Select para Propietario -->
                     <div class="form-group">
                     <label for="propietario">Nombre del Propietario</label>
-                <select class="form-control" name="propietario" id="propietario" required>
+                    <select class="form-control" name="propietario" id="propietario" required>
                     <option value="">Selecciona un vendedor</option>
                     <?php foreach ($vendedores as $vendedor): ?>
                         <option value="<?php echo $vendedor->nombre; ?>"><?php echo $vendedor->nombre; ?></option>
@@ -76,7 +89,7 @@
 
                     <!-- Si el usuario es vendedor, permitir seleccionar un puesto -->
                     <div class="form-group">
-                        <label for="puesto">Puesto</label>
+                    <label for="puesto">Puesto</label>
                         <select class="form-control" id="puesto" name="puesto" required>
                         <option value="">Selecciona un puesto</option>
                         <?php foreach ($puestos as $puesto): ?>
@@ -85,8 +98,6 @@
                             </option>
                         <?php endforeach; ?>
                     </select>
-                    </div>
-
                     <button type="submit" class="btn btn-success">Agregar producto</button>
                     <?php echo form_close(); ?>
                 </div>
