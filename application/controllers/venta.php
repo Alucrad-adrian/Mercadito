@@ -17,7 +17,7 @@ class Venta extends CI_Controller {
         $this->form_validation->set_rules('productos[]', 'Productos', 'required');
 
         if ($this->form_validation->run() === FALSE) {
-            $this->load->view('ventas/crear');
+            $this->load->view('venta/crear');
         } else {
             // Datos de la venta
             $venta_data = array(
@@ -55,13 +55,13 @@ class Venta extends CI_Controller {
     // Mostrar lista de ventas
     public function lista() {
         $data['ventas'] = $this->Venta_model->obtener_todas_ventas();  // Este método debes crearlo en el modelo
-        $this->load->view('ventas/lista', $data);
+        $this->load->view('venta/lista', $data);
     }
 
     // Detalle de una venta
     public function detalle($idventa) {
         $data['venta'] = $this->Venta_model->obtener_venta($idventa);
         $data['detalles'] = $this->Venta_model->obtener_detalle_venta($idventa);
-        $this->load->view('ventas/detalle', $data);
+        $this->load->view('venta/detalle', $data);
     }
 }

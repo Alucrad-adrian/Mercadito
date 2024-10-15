@@ -14,10 +14,18 @@ class Puesto_model extends CI_Model {
     }
 
     // Función para obtener los puestos asociados a un usuario (opcional)
-    public function obtener_puestos_por_usuario($idUsuario) {
-        $this->db->where('propietario', $idUsuario);
-        $query = $this->db->get('puesto'); // Suponiendo que `propietario` es el campo que enlaza el usuario con el puesto
-        return $query->result();
+    public function obtener_idpuesto_por_usuario($usuario_id)
+    {
+        $this->db->select('idpuesto'); // Selecciona el campo idPuesto
+        $this->db->from('puesto'); // De la tabla puesto
+        $this->db->where('propietario', $usuario_id); // Busca donde propietario sea igual a idUsuario
+        $query = $this->db->get(); // Ejecuta la consulta
+    
+        if ($query->num_rows() > 0) {
+            return $query->row()->idpuesto; // Si hay resultados, retorna idPuesto
+        } else {
+            return null; // Si no hay resultados, retorna null
+        }
     }
 
     public function obtener_todos_los_puestos()

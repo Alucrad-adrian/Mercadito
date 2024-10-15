@@ -57,18 +57,27 @@
                 $imagen_path = $producto->imagen ? base_url('uploads/productos/'.$producto->imagen) : base_url('uploads/productos/interrogante.jpg');
             ?>
                 <div class="col-4 producto-item" data-tienda="<?php echo $producto->propietario; ?>" data-categoria="<?php echo $producto->categoria; ?>">
-                    <div class="card shadow">
-                        <h5 class="card-title" align="center"><?php echo $producto->nombre_producto; ?></h5>
-                        <img src="<?php echo $imagen_path; ?>" style="margin-left: 100px; height: 200px; width:150px;" alt="Imagen del producto">
-                        <div class="card-body">
-                            <p class="card-text"><?php echo $producto->descripcion; ?></p><br>
-                            <p class="card-text"><?php echo $producto->precio_unitario; ?> .Bs</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                            <button class="btn btn-primary" onclick="abrirDetalles('<?php echo $producto->nombre_producto; ?>', '<?php echo $imagen_path; ?>', '<?php echo $producto->descripcion; ?>', '<?php echo $producto->precio_unitario; ?>', '<?php echo $producto->idProducto; ?>')">Detalles</button>
-                            </div>
+                <div class="card shadow">
+            <h5 class="card-title" align="center"><?php echo $producto->nombre_producto; ?></h5>
+            <img src="<?php echo $imagen_path; ?>" style="margin-left: 100px; height: 200px; width:150px;" alt="Imagen del producto">
+            <div class="card-body">
+                <p class="card-text"><?php echo $producto->descripcion; ?></p><br>
+                <p class="card-text"><?php echo $producto->precio_unitario; ?> .Bs</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <!-- Formulario para reservar el producto -->
+                    <?php echo form_open('pedido/vistapedido', ['method' => 'post']); ?>
+                        <input type="hidden" name="productoId" value="<?php echo $producto->idProducto; ?>">
+                        <input type="hidden" name="nombreProducto" value="<?php echo $producto->nombre_producto; ?>">
+                        <input type="hidden" name="propietarioProducto" value="<?php echo $producto->propietario; ?>">
+                        <input type="hidden" name="precioProducto" value="<?php echo $producto->precio_unitario; ?>">
+                        
+                        <button type="submit" class="btn btn-primary">Reservar</button>
+                    <?php echo form_close(); ?>
+                            
                         </div>
                     </div>
                 </div>
+            </div>
                 
                 <?php 
                 $counter++;
@@ -88,32 +97,6 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 
-<!-- Modal para Detalles de Producto -->
-<div class="modal fade" id="detallesProducto" tabindex="-1" role="dialog" aria-labelledby="detallesProductoLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="productoNombre"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <img id="productoImagen" src="" alt="Imagen del producto" class="img-fluid mb-3" style="display: block; margin: 0 auto; height: 300px;">
-                <p><strong>Descripción:</strong></p>
-                <p id="productoDescripcion"></p>
-                <p><strong>Precio:</strong> <span id="productoPrecio"></span> Bs</p>
-                <!-- Input oculto para almacenar el ID del producto -->
-                <input type="hidden" id="productoId">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-warning" onclick="reservarProducto()">Reservar</button>
-                <button type="button" class="btn btn-success" onclick="comprarProducto()">Comprar</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- Content Wrapper -->
 
@@ -155,8 +138,21 @@ function filtrarProductos() {
     }
 }
 
+function abrirModalReserva(idProducto, nombreProducto, precioProducto, imagenProducto, descripcionProducto) {
+    // Establecer los valores en los campos del formulario
+    document.getElementById('productoId').value = idProducto;
+    document.getElementById('nombreProducto').value = nombreProducto;
+    document.getElementById('precioProducto').value = precioProducto;
+    document.getElementById('productoDescripcion').innerText = descripcionProducto;
+    document.getElementById('productoPrecio').innerText = precioProducto;
+    
+    // Asignar la imagen del producto
+    var rutaImagen = '<?php echo base_url("uploads/productos/"); ?>' + imagenProducto;
+    document.getElementById('productoImagen').src = rutaImagen;
 
-
+    // Mostrar el modal de reserva
+    $('#detallesProducto').modal('show');
+}
 
 
 

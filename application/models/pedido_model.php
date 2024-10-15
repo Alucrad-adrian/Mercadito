@@ -5,33 +5,33 @@ class Pedido_model extends CI_Model {
         parent::__construct();
         $this->load->database();
     }
+    public function insertTransaccion($transaccionData) {
+        // Inserta los datos en la tabla 'transacciones'
+        $this->db->insert('transaccion', $transaccionData);
 
-    // Lógica para reservar un producto
-    public function reservarProducto($idProducto, $idUsuario) {
-    $data = array(
-        'idProducto' => $idProducto,
-        'cliente' => $idUsuario,
-        'fecha' => date('Y-m-d H:i:s'),
-        'monto_total' => 0,  // Ajusta según sea necesario
-        'fechaCreacion' => date('Y-m-d H:i:s'),
-        'fechaActualizacion' => date('Y-m-d H:i:s'),
-        'tipo' => 'reserva'  
-    );
-
-    return $this->db->insert('pedido', $data);
-}
-
-
-    // Lógica para comprar un producto
-    public function comprarProducto($idProducto, $idUsuario) {
-        $data = array(
-            'idProducto' => $idProducto,
-            'idUsuario' => $idUsuario,
-            'estado' => 'comprado', // Estado del pedido
-            'fecha_compra' => date('Y-m-d H:i:s')
-        );
-
-        // Inserta la compra en la tabla de pedidos
-        return $this->db->insert('pedidos', $data);
+        // Devuelve el ID de la transacción recién insertada
+        return $this->db->insert_id();
     }
+
+    // Función para insertar el detalle de una transacción en la base de datos
+    public function insertDetalleTransaccion($detalleTransaccionData) {
+        // Inserta los datos en la tabla 'detalle_transacciones'
+        return $this->db->insert('detalle_transaccion', $detalleTransaccionData);
+    }   
+    public function ObtenerPuestoId($puestoid) {
+        $this->db->select('*');
+        $this->db->from('puesto');
+        $this->db->where('idpuesto', $puestoid);
+        
+        $query = $this->db->get();
+        
+        if ($query->num_rows() > 0) {
+            return $query->row();
+        } else {
+            return false;
+        }
+    }     
 }
+    
+
+   

@@ -51,12 +51,19 @@ class Producto_model extends CI_Model {
         $this->db->where('idProducto', $idProducto);
         $this->db->update('producto', $data);
     }
-    public function obtener_productos_por_producto($idProducto)
-    {
-        $this->db->where('idProducto', $idProducto);
-        $query = $this->db->get('producto'); // Asumiendo que la tabla se llama 'producto'
-        return $query->result();
+
+    public function obtenerProductoPorId($productoId) {
+        $this->db->where('idProducto', $productoId);
+        $query = $this->db->get('producto');
+    
+        if ($query->num_rows() > 0) {
+            return $query->row();
+        } else {
+            return false;
+        }
     }
+    
+    
     
     public function obtener_productos() {
         $query = $this->db->get('producto'); // 'producto' es el nombre de la tabla en la base de datos
@@ -110,5 +117,6 @@ class Producto_model extends CI_Model {
             return $this->db->insert('productos_puestos', $data);
         }
     
-    
+        
+        
 }
