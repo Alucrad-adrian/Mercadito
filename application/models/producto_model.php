@@ -117,6 +117,12 @@ class Producto_model extends CI_Model {
             return $this->db->insert('productos_puestos', $data);
         }
     
-        
+        public function obtener_productos_con_puesto() {
+            $this->db->select('producto.*, productos_puestos.idPuesto, productos_puestos.stock');
+            $this->db->from('productos_puestos');
+            $this->db->join('producto', 'productos_puestos.idProducto = producto.idProducto', 'left');
+            $query = $this->db->get();
+            return $query->result();
+        } 
         
 }

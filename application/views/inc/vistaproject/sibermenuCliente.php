@@ -17,7 +17,7 @@
           <img src="<?php echo base_url();?>img/friki.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Cliente</a>
+          <a href="#" class="d-block"><?php echo $this->session->userdata('usuario'); ?></a>
         </div>
       </div>
       <!-- SidebarSearch Form -->

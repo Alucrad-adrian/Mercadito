@@ -13,21 +13,38 @@ class Puesto_model extends CI_Model {
         return $this->db->insert('puesto', $data);  // Inserta los datos en la tabla `puesto`
     }
 
-    // Función para obtener los puestos asociados a un usuario (opcional)
-    public function obtener_idpuesto_por_usuario($usuario_id)
-    {
-        $this->db->select('idpuesto'); // Selecciona el campo idPuesto
+    public function obtenerIdPuestos() {
+        // Consulta para obtener todos los idPuesto de la tabla puesto
+        $this->db->select('idPuesto'); // Seleccionamos solo la columna idPuesto
         $this->db->from('puesto'); // De la tabla puesto
-        $this->db->where('propietario', $usuario_id); // Busca donde propietario sea igual a idUsuario
-        $query = $this->db->get(); // Ejecuta la consulta
-    
+        $query = $this->db->get();
+
+        // Retornamos los resultados como un array
         if ($query->num_rows() > 0) {
-            return $query->row()->idpuesto; // Si hay resultados, retorna idPuesto
+            return $query->result_array(); // Retorna un array con todos los idPuesto
         } else {
-            return null; // Si no hay resultados, retorna null
+            return null; // Retorna null si no se encontraron puestos
         }
     }
+    
+     
 
+    public function obtenerIdPuestoPorPropietario($idUsuario) {
+        // Seleccionamos el idPuesto de la tabla puesto donde propietario es igual a idUsuario
+        $this->db->select('idPuesto'); 
+        $this->db->from('puesto'); 
+        $this->db->where('propietario', $idUsuario); // Condición para que propietario sea igual a idUsuario
+        $query = $this->db->get();
+        
+        // Verificamos si se encontró un puesto con ese propietario
+        if ($query->num_rows() > 0) {
+            // Si se encontró, retornamos el idPuesto
+            return $query->row()->idPuesto;
+        } else {
+            // Si no se encontró, retornamos null
+            return null;
+        }
+    }
     public function obtener_todos_los_puestos()
     {
         $this->db->select('idpuesto, nombre_puesto, propietario');

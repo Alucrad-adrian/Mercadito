@@ -26,14 +26,17 @@
                             <br>
                             <label for="Precio unitario">Precio unitario:</label><br><?php echo $producto->precio_unitario; ?> Bs
                             <br>
-                            <label for="propietarioProducto">propietario:</label><br><?php echo $producto->propietario; ?>
+                            <label for="propietarioProducto">Propietario:</label><br><?php echo $producto->propietario; ?>
                             <!-- Campo para seleccionar cantidad -->
                             <div class="form-group">
                                 <label for="cantidad">Cantidad:</label>
                                 <input type="number" id="cantidad" name="cantidad" class="form-control" min="1" value="1" onchange="actualizarTotal(<?php echo $producto->precio_unitario; ?>)">
                             </div>
-                            <label for="idpuesto">idpuesto:</label><br><?php echo $idpuesto; ?>
-                            <pre><?php print_r($idpuesto); ?></pre>
+                            <label for="idpuesto">ID del Puesto: 
+                            <?php 
+                            // Aquí se asume que el puestoProducto se envió como parte de la solicitud
+                            echo isset($puestoProducto) ? $puestoProducto : 'no existe'; 
+                            ?>
 
                             <!-- Mostrar el precio total -->
                             <p>Total: <span id="total"><?php echo $producto->precio_unitario; ?></span> Bs</p>
@@ -41,14 +44,13 @@
                             <!-- Formulario para confirmar la reserva -->
                             <form action="<?php echo base_url('index.php/pedido/confirmarReserva'); ?>" method="post">
                                 
+                                <input type="hidden" name="idUsuario" value="<?php echo $idUsuario; ?>"> <!-- Campo para el ID del usuario -->
                                 <input type="hidden" name="productoId" value="<?php echo $producto->idProducto; ?>">
                                 <input type="hidden" id="precio_unitario" name="precio_unitario" value="<?php echo $producto->precio_unitario; ?>">
                                 <input type="hidden" id="precio_total" name="precio_total" value="<?php echo $producto->precio_unitario; ?>">
                                 <input type="hidden" name="propietarioProducto" value="<?php echo $producto->propietario; ?>">
-                                <input type="hidden" name="idpuesto" value="<?php echo isset($idpuesto) ? $idpuesto : ''; ?>">
+                                <input type="hidden" id="puestoProducto" name="puestoProducto" value="<?php echo isset($puestoProducto) ? $puestoProducto : 'no existe'; ?>">
                                 <input type="hidden" id="cantidadSeleccionada" name="cantidadSeleccionada" value="1">
-                                
-
                                 <button type="submit" class="btn btn-success">Confirmar Reserva</button>
                             </form>
 

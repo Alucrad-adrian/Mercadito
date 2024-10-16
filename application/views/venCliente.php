@@ -48,6 +48,7 @@
             </div>
             </div>
             
+            
             <br>
             <div class="row" id="productos-container">
             <?php 
@@ -63,6 +64,7 @@
             <div class="card-body">
                 <p class="card-text"><?php echo $producto->descripcion; ?></p><br>
                 <p class="card-text"><?php echo $producto->precio_unitario; ?> .Bs</p>
+                <p class="card-text"><?php echo $producto->propietario; ?></p>
                 <div class="d-flex justify-content-between align-items-center">
                     <!-- Formulario para reservar el producto -->
                     <?php echo form_open('pedido/vistapedido', ['method' => 'post']); ?>
@@ -70,7 +72,7 @@
                         <input type="hidden" name="nombreProducto" value="<?php echo $producto->nombre_producto; ?>">
                         <input type="hidden" name="propietarioProducto" value="<?php echo $producto->propietario; ?>">
                         <input type="hidden" name="precioProducto" value="<?php echo $producto->precio_unitario; ?>">
-                        
+                        <input type="hidden" name="puestoProducto" value="<?php echo $producto->idPuesto; ?>">
                         <button type="submit" class="btn btn-primary">Reservar</button>
                     <?php echo form_close(); ?>
                             
@@ -78,6 +80,7 @@
                     </div>
                 </div>
             </div>
+            
                 
                 <?php 
                 $counter++;
@@ -86,6 +89,7 @@
                 }
                 ?>
             <?php endforeach; ?>
+            
             </div>
         </div><!-- /.container-fluid -->
     </div>

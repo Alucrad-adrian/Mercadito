@@ -209,16 +209,18 @@ public function vercorreo(){
 
 	public function ventanaCliente()
 {
+    
     $this->load->model('producto_model'); 
     $this->load->model('Notificacion_model'); 
     $this->load->model('Puesto_model');
     // Obtener los productos disponibles
-    $data['productos'] = $this->producto_model->obtener_productos();
+    //$data['productos'] = $this->producto_model->obtener_productos();
+    $data['productos'] = $this->producto_model->obtener_productos_con_puesto();
 
     // Obtener las notificaciones para el cliente actual
-    $usuario_id = $this->session->userdata('idUsuario'); // Obtener el ID del usuario
-    $data['notificaciones'] = $this->Notificacion_model->obtener_notificaciones_no_leidas($usuario_id); // Obtener notificaciones no leídas
-    $data['idpuesto'] = $this->Puesto_model->obtener_idpuesto_por_usuario($usuario_id);
+    $idUsuario = $this->session->userdata('idUsuario'); // Obtener el ID del usuario
+    $data['notificaciones'] = $this->Notificacion_model->obtener_notificaciones_no_leidas($idUsuario); // Obtener notificaciones no leídas
+    $data['idpuestos'] = $this->Puesto_model->obtenerIdPuestos();
     // Cargar las vistas
     $this->load->view('inc/vistaproject/head', $data); // Pasa las notificaciones a la vista
     $this->load->view('inc/vistaproject/sibermenuCliente');
