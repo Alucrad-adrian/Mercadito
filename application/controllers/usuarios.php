@@ -156,7 +156,7 @@ class Usuarios extends CI_Controller {
 
         // Enviar el correo
         if ($this->email->send()) {
-            echo 'Correo de verificación enviado.';
+            echo 'Correo de verificación enviado si gusta puedes cerrar esta ventana.';
             redirect('usuarios/vercorreo', 'refresh');
         } else {
             echo 'Error al enviar el correo de verificación.';
@@ -254,34 +254,5 @@ public function vercorreo(){
 		$this->load->view('Confirmaciondetoken');
 	}
 
-	public function guardarpedido(){
-		$this->load->model('Pedido_model');
-		$pedidoData = array(
-			'fecha' => date('Y-m-d H:i:s'),
-			'idUsuario' => $idUsuario, // Asume que tienes el ID del usuario/cliente
-			'total' => $totalPedido
-		);
-		
-		$detalleData = array(
-			array(
-				'producto_idproducto' => 1,
-				'cantidad' => 2
-			),
-			array(
-				'producto_idproducto' => 2,
-				'cantidad' => 1
-			)
-		);
-		
-		$resultado = $this->pedido_model->guardarPedido($pedidoData, $detalleData);
-		
-		if ($resultado) {
-			echo "Pedido y detalles guardados correctamente.";
-		} else {
-			echo "Ocurrió un error al guardar el pedido.";
-		}
-		
-		
-
-	}
+	
 }

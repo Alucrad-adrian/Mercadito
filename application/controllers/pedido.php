@@ -150,7 +150,7 @@ class Pedido extends CI_Controller {
         $this->Pedido_model->actualizar_transaccion($idTransaccion, $data);
 
         // Redirigimos a la lista de pedidos una vez que se actualice la venta
-        redirect('pedido/lista_pedido');
+        redirect('pedido/listaventa');
     }
     
     public function cancelar()

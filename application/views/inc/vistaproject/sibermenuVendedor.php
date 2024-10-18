@@ -94,7 +94,11 @@
             </a>
            
           </li>
-          
+          <li class="nav-item">
+            <a href="<?php echo base_url(); ?>index.php/usuarios/logout">
+            <button type="button" class="btn btn-primary">Cerrar sesión</button>
+            </a>
+          </li>
          
          
         </ul>
