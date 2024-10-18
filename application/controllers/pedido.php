@@ -115,11 +115,54 @@ class Pedido extends CI_Controller {
         $this->session->set_flashdata('success', '¡Reserva confirmada exitosamente!');
         redirect('usuarios/ventanaCliente');
     }
-    
-    
-    
-    
-    
+    public function listapedido(){
+        $this->load->model('Pedido_model');
+        $data['pedidos'] = $this->Pedido_model->obtener_pedidos_reservados();
+        $this->load->view('inc/vistaproject/head');
+		$this->load->view('inc/vistaproject/sibermenuVendedor');
+		$this->load->view('lista_pedido',$data);
+		$this->load->view('inc/vistaproject/footer');
+		
+    }
 
+    public function listaventa(){
+        $this->load->model('Pedido_model');
+        $data['pedidos'] = $this->Pedido_model->obtener_ventas_realizadas();
+        $this->load->view('inc/vistaproject/head');
+		$this->load->view('inc/vistaproject/sibermenuVendedor');
+		$this->load->view('lista_venta',$data);
+		$this->load->view('inc/vistaproject/footer');
+		
+    }
     
+    public function venta_realizada()
+    {
+        // Obtenemos el idTransaccion desde el formulario
+        $idTransaccion = $this->input->post('idTransaccion');
+
+        // Datos que se van a actualizar en la tabla transaccion
+        $data = array(
+            'estado' => 'vendido',
+            'tipo' => 'comprado'
+        );
+
+        // Llamamos al modelo para actualizar los datos
+        $this->Pedido_model->actualizar_transaccion($idTransaccion, $data);
+
+        // Redirigimos a la lista de pedidos una vez que se actualice la venta
+        redirect('pedido/lista_pedido');
+    }
+    
+    public function cancelar()
+    {
+        // Obtenemos el idTransaccion desde el formulario
+        $idTransaccion = $this->input->post('idTransaccion');
+
+        // Llamamos al modelo para eliminar los datos de las tablas transaccion y detalle_transaccion
+        $this->Pedido_model->eliminar_transaccion($idTransaccion);
+
+        // Redirigimos a la lista de pedidos una vez que se elimine la transacción
+        redirect('pedido/lista_pedido');
+    }
+
 }

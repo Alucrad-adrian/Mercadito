@@ -197,13 +197,14 @@ public function vercorreo(){
 
 	public function ventanaVendedor()
 	{
+        $this->load->model('Producto_model');
 		$lista = $this->producto_model->listaproductos();
         $data['productos'] = $lista;
 		$this->load->view('inc/vistaproject/head');
 		$this->load->view('inc/vistaproject/sibermenuVendedor');
 		$this->load->view('lista_producto', $data);
 		$this->load->view('inc/vistaproject/footer');
-		$this->load->model('Producto_model');
+		
     
 	}
 

@@ -30,7 +30,51 @@ class Pedido_model extends CI_Model {
         } else {
             return false;
         }
-    }     
+    }    
+    public function obtener_pedidos_reservados()
+    {
+        // Join entre transaccion, detalle_transaccion y producto
+        $this->db->select('transaccion.idTransaccion, producto.nombre_producto, detalle_transaccion.cantidad, transaccion.monto_total');
+        $this->db->from('transaccion');
+        $this->db->join('detalle_transaccion', 'detalle_transaccion.transaccion_id = transaccion.idTransaccion');
+        $this->db->join('producto', 'producto.idProducto = detalle_transaccion.producto_id');
+        $this->db->where('transaccion.estado', 'reservado');
+        
+        $query = $this->db->get();
+
+        // Retorna los resultados si hay, de lo contrario un array vacío
+        return $query->num_rows() > 0 ? $query->result() : [];
+    } 
+    public function obtener_ventas_realizadas()
+{
+    $this->db->select('transaccion.idTransaccion, producto.nombre_producto, producto.propietario, detalle_transaccion.cantidad, transaccion.monto_total');
+    $this->db->from('transaccion');
+    $this->db->join('detalle_transaccion', 'detalle_transaccion.transaccion_id = transaccion.idTransaccion');
+    $this->db->join('producto', 'producto.idProducto = detalle_transaccion.producto_id');
+    $this->db->where('transaccion.estado', 'vendido');
+    
+    $query = $this->db->get();
+
+    // Retorna los resultados si hay, de lo contrario un array vacío
+    return $query->num_rows() > 0 ? $query->result() : [];
+
+}
+    public function actualizar_transaccion($idTransaccion, $data)
+    {
+        $this->db->where('idTransaccion', $idTransaccion);
+        $this->db->update('transaccion', $data);
+    }
+
+    public function eliminar_transaccion($idTransaccion)
+    {
+        // Eliminar registros de la tabla detalle_transaccion
+        $this->db->where('transaccion_id', $idTransaccion);
+        $this->db->delete('detalle_transaccion');
+
+        // Eliminar registro de la tabla transaccion
+        $this->db->where('idTransaccion', $idTransaccion);
+        $this->db->delete('transaccion');
+    }
 }
     
 
