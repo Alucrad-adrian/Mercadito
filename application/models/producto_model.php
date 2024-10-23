@@ -112,17 +112,52 @@ class Producto_model extends CI_Model {
         }
     }
     
-        // Método para asociar el producto con el puesto
-        public function agregarProductoPuesto($data) {
+   // Método para asociar el producto con el puesto
+    public function agregarProductoPuesto($data) {
             return $this->db->insert('productos_puestos', $data);
-        }
+    }
     
-        public function obtener_productos_con_puesto() {
+    public function obtener_productos_con_puesto() {
             $this->db->select('producto.*, productos_puestos.idPuesto, productos_puestos.stock');
             $this->db->from('productos_puestos');
             $this->db->join('producto', 'productos_puestos.idProducto = producto.idProducto', 'left');
             $query = $this->db->get();
             return $query->result();
-        } 
+    } 
+
+    public function listaproductos_vendedor($idUsuario)
+{
+    $this->db->select('producto.*, usuario.nombre AS nombre_vendedor, usuario.apellido1 AS apellido_vendedor');
+    $this->db->from('producto');
+    $this->db->join('usuario', 'producto.propietario = usuario.usuario'); // Relacionamos producto con usuario por propietario
+    $this->db->where('usuario.idUsuario', $idUsuario); // Filtramos por idUsuario
+
+    // Ejecutamos la consulta
+    $query = $this->db->get();
+    return $query;
+
+}
+public function obtener_productos_por_puesto($idPuesto) {
+    echo "ID del Puesto recibido: " . $idPuesto . "<br>";
+
+    // Selección de columnas necesarias desde la tabla 'puesto'
+    $this->db->select('producto.*'); // Selecciona todos los campos de la tabla 'producto'
+    $this->db->from('puesto'); // Tabla principal
+
+    // Unión con la tabla 'producto' basándose en la relación con el campo 'propietario'
+    $this->db->join('producto', 'puesto.idpuesto = producto.propietario');
+    
+    // Condición para filtrar por el ID del puesto
+    $this->db->where('puesto.idpuesto', $idPuesto);
+
+    // Ejecuta la consulta
+    $query = $this->db->get();
+    
+    // Muestra la consulta generada para depuración
+    echo $this->db->last_query();
+    
+    // Retorna los resultados como un array de objetos
+    return $query->result();
+}
         
 }

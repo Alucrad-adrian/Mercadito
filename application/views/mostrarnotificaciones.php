@@ -64,7 +64,7 @@
                                                 <p class="card-text">tienda: <br><?php echo $notificacion->propietario; ?></p>
                                                 <p class="card-text">precio: <br><?php echo $notificacion->precio; ?> 'Bs'</p>
                                                 <p class="card-text"><small class="text-muted">Fecha: <?php echo $notificacion->fecha_creacion; ?></small></p>
-                                                <a href="#" class="btn btn-primary">Ver Detalles</a>
+                                                
                                             </div>
                                         </div>
                                     </div>

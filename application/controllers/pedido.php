@@ -86,7 +86,7 @@ class Pedido extends CI_Controller {
         $monto_total = $precio_unitario * $cantidad;
         $fecha = date('Y-m-d H:i:s');
         $estado = 'reservado';
-        $tipo = 'pedido';
+        
     
         // Crear array de datos para transacción
         $transaccionData = array(
@@ -94,8 +94,7 @@ class Pedido extends CI_Controller {
             'fecha' => $fecha,
             'monto_total' => $monto_total,
             'puesto' => $puestoProducto, // Guardar el puestoProducto
-            'estado' => $estado,
-            'tipo' => $tipo
+            'estado' => $estado
         );
     
         // Insertar la transacción y obtener el ID generado
@@ -134,7 +133,82 @@ class Pedido extends CI_Controller {
 		$this->load->view('inc/vistaproject/footer');
 		
     }
+///ventanareservas
+    public function crear_reserva()
+{
+    // Obtener el ID del cliente (puede ser de la sesión)
+    $idCliente = $this->session->userdata('idUsuario');
     
+    // Obtener los productos seleccionados y las cantidades
+    $productos_seleccionados = $this->input->post('productos_seleccionados');
+    $cantidades = $this->input->post('cantidad');
+    $idPuesto = $this->input->post('idPuesto');
+
+    // Verificar que se seleccionó al menos un producto
+    if (empty($productos_seleccionados)) {
+        // Si no se seleccionaron productos, redirigir con un mensaje de error
+        $this->session->set_flashdata('error', 'No seleccionaste ningún producto.');
+        redirect('ruta_a_la_vista_de_reserva');
+        return;
+    }
+
+    // Inicializar total de la reserva
+    $total = 0;
+
+    // Validar el stock de cada producto y calcular el total
+    foreach ($productos_seleccionados as $idProducto) {
+        // Obtener el producto desde la base de datos
+        $producto = $this->db->get_where('producto', ['idProducto' => $idProducto])->row();
+
+        // Verificar la cantidad disponible (stock)
+        if ($cantidades[$idProducto] > $producto->stock) {
+            $this->session->set_flashdata('error', "No hay suficiente stock para el producto: {$producto->nombre_producto}");
+            redirect('ruta_a_la_vista_de_reserva');
+            return;
+        }
+
+        // Calcular el total para la reserva
+        $total += $producto->precio_unitario * $cantidades[$idProducto];
+    }
+
+    // Crear la reserva en la tabla `reserva`
+    $data_reserva = [
+        'idCliente' => $idCliente,
+        'idPuesto' => $idPuesto,
+        'fechaReserva' => date('Y-m-d H:i:s'),
+        'total' => $total,
+        'estado' => 'Pendiente'
+    ];
+    $this->db->insert('reserva', $data_reserva);
+
+    // Obtener el ID de la reserva recién creada
+    $idReserva = $this->db->insert_id();
+
+    // Insertar los productos en la tabla `detalle_reserva`
+    foreach ($productos_seleccionados as $idProducto) {
+        $producto = $this->db->get_where('producto', ['idProducto' => $idProducto])->row();
+
+        // Insertar en `detalle_reserva`
+        $data_detalle_reserva = [
+            'idReserva' => $idReserva,
+            'idProducto' => $idProducto,
+            'cantidad' => $cantidades[$idProducto],
+            'precio_unitario' => $producto->precio_unitario
+        ];
+        $this->db->insert('detalle_reserva', $data_detalle_reserva);
+
+        // Actualizar el stock del producto
+        $nuevo_stock = $producto->stock - $cantidades[$idProducto];
+        $this->db->where('idProducto', $idProducto);
+        $this->db->update('producto', ['stock' => $nuevo_stock]);
+    }
+
+    // Redirigir con un mensaje de éxito
+    $this->session->set_flashdata('success', 'Reserva creada exitosamente.');
+    redirect('ruta_a_la_vista_de_reserva');
+}
+
+
     public function venta_realizada()
     {
         // Obtenemos el idTransaccion desde el formulario

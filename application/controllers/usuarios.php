@@ -197,12 +197,20 @@ public function vercorreo(){
 
 	public function ventanaVendedor()
 	{
-        $this->load->model('Producto_model');
-		$lista = $this->producto_model->listaproductos();
-        $data['productos'] = $lista;
+        // Obtener el ID del vendedor desde la sesión
+    $idUsuario = $this->session->userdata('idUsuario'); // Asegúrate de que 'idUsuario' es el ID del vendedor
+
+    // Cargar el modelo
+    $this->load->model('Producto_model');
+
+    // Obtener la lista de productos filtrada por el usuario (vendedor) actual
+    $lista = $this->producto_model->listaproductos_vendedor($idUsuario);
+
+    // Pasar los productos a la vista
+    $data['productos'] = $lista;
 		$this->load->view('inc/vistaproject/head');
 		$this->load->view('inc/vistaproject/sibermenuVendedor');
-		$this->load->view('lista_producto', $data);
+		$this->load->view('lista_productovendedor', $data);
 		$this->load->view('inc/vistaproject/footer');
 		
     
@@ -229,7 +237,34 @@ public function vercorreo(){
     $this->load->view('inc/vistaproject/footer');
 }
 
+public function ventanareservas()
+{
+    $this->load->model('producto_model'); 
+    $this->load->model('Notificacion_model'); 
+    $this->load->model('Puesto_model');
+    
+    // Obtener el ID del puesto (puede venir de un formulario POST, GET, sesión, etc.)
+    $idPuesto = $this->input->post('idPuesto'); // Verifica si estás recibiendo el ID desde el formulario
 
+    // Validar que $idPuesto tenga un valor válido
+    if (!empty($idPuesto)) {
+        // Obtener los productos del puesto en específico
+        $productos = $this->producto_model->obtener_productos_por_puesto($idPuesto);
+    } else {
+        // En caso de que $idPuesto no esté definido o sea nulo
+        $productos = [];
+    }
+
+    // Pasar los productos y el idPuesto a la vista
+    $data['productos'] = $productos;
+    $data['idPuesto'] = $idPuesto;
+
+    // Cargar las vistas
+    $this->load->view('inc/vistaproject/head'); 
+    $this->load->view('inc/vistaproject/sibermenuCliente');
+    $this->load->view('venreservas', $data);
+    $this->load->view('inc/vistaproject/footer');
+}
 
 
 	public function verificar($token)

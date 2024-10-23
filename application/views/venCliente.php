@@ -16,7 +16,11 @@
                 </div><!-- /.col -->
             </div><!-- /.row -->
             
-            <h2>Productos</h2>
+            <h2>Productos</h2><br>
+            <p>Nota: si quiere reservar solo una cosa por cantidad en esta pagina si quiere reservar varios productos hagalo aqui</p>
+            <a href="<?php echo base_url(); ?>index.php/usuarios/ventanareservas">
+            <button type="button" class="btn btn-success">reserva productos</button>
+            </a>
             <div class="row">
             <div class="col-sm-6">
                 <!-- Select para seleccionar tienda (propietario) -->
@@ -142,21 +146,7 @@ function filtrarProductos() {
     }
 }
 
-function abrirModalReserva(idProducto, nombreProducto, precioProducto, imagenProducto, descripcionProducto) {
-    // Establecer los valores en los campos del formulario
-    document.getElementById('productoId').value = idProducto;
-    document.getElementById('nombreProducto').value = nombreProducto;
-    document.getElementById('precioProducto').value = precioProducto;
-    document.getElementById('productoDescripcion').innerText = descripcionProducto;
-    document.getElementById('productoPrecio').innerText = precioProducto;
-    
-    // Asignar la imagen del producto
-    var rutaImagen = '<?php echo base_url("uploads/productos/"); ?>' + imagenProducto;
-    document.getElementById('productoImagen').src = rutaImagen;
 
-    // Mostrar el modal de reserva
-    $('#detallesProducto').modal('show');
-}
 
 
 
